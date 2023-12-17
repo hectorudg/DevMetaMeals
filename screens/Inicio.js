@@ -6,12 +6,14 @@ import {
   View,
   ImageBackground,
   TextInput,
+  TouchableOpacity,
 } from "react-native";
 import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import SelectBox from 'react-native-multi-selectbox';
 import DropDownPicker from "react-native-dropdown-picker";
 import { xorBy } from 'lodash';
 import { color } from "react-native-reanimated";
+import { useNavigation } from '@react-navigation/native';
 
 const K_OPTIONS_ALERGIAS = [
   {
@@ -71,7 +73,7 @@ const K_OPTIONS_PREF = [
   },
 ]
 
-const Inicio = () => {
+const Inicio = ( { navigation }) => {
   const [selectedAlergia, setSelectedAlergia] = useState({})
   const [selectedPreferencia, setSelectedPreferencia] = useState({})
   const [selectedAlergias, setSelectedAlergias] = useState([])
@@ -99,11 +101,12 @@ const Inicio = () => {
       <View style={styles.splashScreen}>
         
         {/* recetario imagen */}
-        <ImageBackground
-          style={[styles.image1Icon, styles.image1IconLayout]}
-          resizeMode="cover"
+        <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario')}>
+        <Image
+          style={{  width: 57, height: 57,}}
           source={require("../assets/image-1.png")}
         />
+        </TouchableOpacity>
         <Text style={[styles.holaHector, styles.title1Clr]}>
           Hola {"{USER_NAME}"} ...
         </Text>
@@ -111,14 +114,17 @@ const Inicio = () => {
           Cerrar Sesión
         </Text>
       {/* Icono central IA */}
-
+      <TouchableOpacity style={[styles.icon1, styles.icon1Position]} onPress={() => navigation.navigate('GenerarReceta')}>
       <Image
-        style={[styles.icon1, styles.icon1Position]}
+        onPress={() => navigation.navigate('Bienvenido')}
+        style={{  width: 75, height: 75,}}
         contentFit= "contain"
         source={require("../assets/icon2.png")}
       />
+      </TouchableOpacity>
  
       {/* icono home */}
+
       <ImageBackground
         style={[styles.icon2, styles.icon2Layout]}
         resizeMode="cover"
@@ -206,7 +212,7 @@ const Inicio = () => {
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
         </View>
-        <Text style={[styles.genero, styles.generoTypo]}>{`Genero: `}</Text>
+        <Text onPress={() => navigation.navigate('Bienvenido')} style={[styles.genero, styles.generoTypo]}>{`Genero: `}</Text>
         <Text style={[styles.edad, styles.edadTypo]}>Edad:</Text>
         <Text style={[styles.peso, styles.edadTypo]}>Peso:</Text>
         <Text style={[styles.estatura, styles.edadTypo]}>Estatura:</Text>
@@ -766,12 +772,12 @@ const styles = StyleSheet.create({
     lineHeight: 18,
   },
   icon1: {
-    marginTop: 310,
+    marginTop:300,
     marginLeft: -41,
     width: 76,
     height: 76,
     top: "50%",
-    zIndex: 50
+    width: 100, height: 100 
   },
   icon2: {
     top: 748,
