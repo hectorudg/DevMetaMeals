@@ -12,13 +12,11 @@ import Login from "./screens/Login";
 import AgregarIngrediente from "./screens/AgregarIngrediente";
 import Inventario from "./screens/Inventario";
 import Bienvenido from "./screens/Bienvenido";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, Text, Pressable, TouchableOpacity } from "react-native";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(false);
-
   const [fontsLoaded, error] = useFonts({
     "Montserrat-Thin": require("./assets/fonts/Montserrat-Thin.ttf"),
     "Montserrat-Light": require("./assets/fonts/Montserrat-Light.ttf"),

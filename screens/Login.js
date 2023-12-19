@@ -13,6 +13,8 @@ import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import { Link } from "@react-navigation/native";
 import { Linking } from "react-native";
 
+
+
 const Login = ( { navigation } ) => {
   return (
     <View style={styles.login}>
