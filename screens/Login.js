@@ -1,5 +1,6 @@
-import * as React from "react";
+import React, { Component, useState } from "react";
 import { Image } from "expo-image";
+import md5 from 'md5';
 import {
   StyleSheet,
   Text,
@@ -14,34 +15,39 @@ import { Link } from "@react-navigation/native";
 import { Linking } from "react-native";
 
 
-constructor(props){
+export default class Login extends Component {
+  constructor(props){
     super(props);
     this.state={
       input1:"",
       input2:"",
       value:"",
     };
+  }
 
-const validation = () => {
-        var xhttp = new XMLHttpRequest();
-        let _this=this;
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            _this.setState({value:xhttp.responseText});
-            if(_this.state.value=="X"){
-              Alert.alert("Invalid data. Verify and try again or register.");
-            }else if(_this.state.value=="R"){
-              Alert.alert("Activate your account using the link sent during registration.");
-            }else{
-              _this.props.navigation.navigate('Home', {name:_this.state.value});
-            }
-          }
-        };
-        xhttp.open("GET", "https://metameals.000webhostapp.com/Login.php?email="+this.state.input1+"&password="+md5(this.state.input2),true);
-        xhttp.send();
+  render(){
+    const registration = () => {
+        this.props.navigation.navigate('Register');
     };
-    
-const Login = ( { navigation } ) => {
+    const validation = () => {
+      var xhttp = new XMLHttpRequest();
+      let _this=this;
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          _this.setState({value:xhttp.responseText});
+          if(_this.state.value=="X"){
+            Alert.alert("Invalid data. Verify and try again or register.");
+          }else if(_this.state.value=="R"){
+            Alert.alert("Activate your account using the link sent during registration.");
+          }else{
+            _this.props.navigation.navigate('Inicio');
+          }
+        }
+      };
+      xhttp.open("GET", "https://metameals.000webhostapp.com/Login.php?email="+this.state.input1+"&password="+md5(this.state.input2),true);
+      xhttp.send();
+  };
+
   return (
     <View style={styles.login}>
       <View style={styles.splashScreen}>
@@ -92,7 +98,8 @@ const Login = ( { navigation } ) => {
        
           </View>
           <Pressable style={[styles.buttonprimary1, styles.buttonprimaryBg]}>
-            <Text style={[styles.orderNow1, styles.dismiss1Typo]}>
+            <Text style={[styles.orderNow1, styles.dismiss1Typo]}
+                  onPress={validation}>
               Iniciar sesion
             </Text>
           </Pressable>
@@ -103,8 +110,13 @@ const Login = ( { navigation } ) => {
           contentFit="cover"
           source={require("../assets/pngwing-1.png")}
         />
-      <TextInput placeholder="Correo" style={[styles.splashScreenChild, styles.splashLayout]} />
-      <TextInput placeholder="Contraseña" secureTextEntry={true} style={[styles.splashScreenItem, styles.splashLayout]} />
+
+      <TextInput placeholder="Correo" 
+                  style={[styles.splashScreenChild, styles.splashLayout]} 
+                  onChangeText={(input1) => this.setState({ input1 })} />
+      <TextInput placeholder="Contraseña" secureTextEntry={true} 
+                 style={[styles.splashScreenItem, styles.splashLayout]}
+                 onChangeText={(input2) => this.setState({ input2 })} />
       
   <View>
     {/* Logo udg */}
@@ -127,7 +139,7 @@ const Login = ( { navigation } ) => {
 
     </View>
   );
-};
+}}
 
 const styles = StyleSheet.create({
   container: {
@@ -446,4 +458,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+
+

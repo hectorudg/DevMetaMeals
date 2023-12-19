@@ -7,21 +7,13 @@ const Inventario = () => {
   return (
     <View style={styles.inventario}>
       <View style={styles.splashScreen}>
-        <Image
-          style={styles.bgIcon}
-          contentFit="cover"
-          source={require("../assets/bg2.png")}
-        />
+
         <View style={styles.backdrop}>
           <Image
             style={styles.backdropBaseIcon}
             contentFit="cover"
             source={require("../assets/backdrop-base2.png")}
           />
-          <Text style={styles.title}>MetaMeals</Text>
-          <View style={[styles.buttontext, styles.buttontextLayout]}>
-            <Text style={[styles.dismiss, styles.text1Typo]}>Registrarse</Text>
-          </View>
           <View style={styles.buttonprimary}>
             <Text style={[styles.orderNow, styles.orderNowFlexBox]}>
               Guardar
@@ -30,129 +22,15 @@ const Inventario = () => {
           <View style={styles.backdropChild} />
           <Text style={[styles.inventarioEnLaContainer, styles.textFlexBox]}>
             <Text style={styles.inventarioEnLa}>Inventario en la cocina</Text>
-            <Text style={styles.textTypo1}>{`  `}</Text>
           </Text>
         </View>
-        <Image
-          style={styles.splashScreenChild}
-          contentFit="cover"
-          source={require("../assets/rectangle-6.png")}
-        />
-        <View style={[styles.splashScreenItem, styles.inventarioItemLayout]} />
-        <Text style={[styles.text1, styles.text1Position]} />
+
+
+
       </View>
-      <Image
-        style={styles.inventarioChild}
-        contentFit="cover"
-        source={require("../assets/rectangle-131.png")}
-      />
-      <View style={[styles.inventarioItem, styles.inventarioItemLayout]} />
-      <View style={[styles.inventarioInner, styles.inventarioItemLayout]} />
+      {/* barra negra */}
       <View style={[styles.rectangleView, styles.buttontextLayout]} />
-      <Image
-        style={styles.rectangleIcon}
-        contentFit="cover"
-        source={require("../assets/rectangle-151.png")}
-      />
-      <Text style={[styles.buscar, styles.buscarPosition]}>
-        <Text style={styles.buscar1}>Buscar</Text>
-        <Text style={styles.text2}>...</Text>
-      </Text>
-      <Text style={[styles.buscar2, styles.buscarPosition]}>
-        <Text style={styles.buscar1}>Buscar</Text>
-        <Text style={styles.text2}>...</Text>
-      </Text>
-      <Image
-        style={[styles.inventarioChild1, styles.inventarioChildLayout3]}
-        contentFit="cover"
-        source={require("../assets/rectangle-211.png")}
-      />
-      <Image
-        style={[styles.inventarioChild2, styles.inventarioChildLayout3]}
-        contentFit="cover"
-        source={require("../assets/rectangle-20.png")}
-      />
-      <Image
-        style={[styles.inventarioChild3, styles.inventarioChildLayout3]}
-        contentFit="cover"
-        source={require("../assets/rectangle-24.png")}
-      />
-      <Image
-        style={styles.inventarioChild4}
-        contentFit="cover"
-        source={require("../assets/rectangle-25.png")}
-      />
-      <Image
-        style={[styles.inventarioChild5, styles.inventarioChildLayout1]}
-        contentFit="cover"
-        source={require("../assets/rectangle-27.png")}
-      />
-      <Image
-        style={[styles.inventarioChild6, styles.inventarioChildLayout1]}
-        contentFit="cover"
-        source={require("../assets/rectangle-27.png")}
-      />
-      <Image
-        style={[styles.inventarioChild7, styles.inventarioChildLayout1]}
-        contentFit="cover"
-        source={require("../assets/rectangle-28.png")}
-      />
-      <Image
-        style={[styles.inventarioChild8, styles.verdurasPosition]}
-        contentFit="cover"
-        source={require("../assets/rectangle-26.png")}
-      />
-      <Text style={[styles.todo, styles.otrosLayout]}>Todo</Text>
-      <Text style={[styles.todo, styles.otrosLayout]}>Todo</Text>
-      <Text style={[styles.frutas, styles.otrosLayout]}>Frutas</Text>
-      <Text style={[styles.otros, styles.otrosLayout]}>Otros</Text>
-      <Text style={[styles.verduras, styles.otrosLayout]}>Verduras</Text>
-      <Text style={[styles.cereales, styles.otrosLayout]}>Cereales</Text>
-      <Text style={[styles.carnes, styles.otrosLayout]}>Carnes</Text>
-      <Text style={[styles.lacteos, styles.otrosLayout]}>Lacteos</Text>
-      <Text style={[styles.categoria, styles.cantidadTypo]}>Categoria</Text>
-      <Text style={[styles.cantidad, styles.cantidadLayout]}>Cantidad</Text>
-      <Text style={[styles.cantidad1, styles.cantidad1Typo]}>Cantidad</Text>
-      <Text style={[styles.categoria1, styles.frutas1Layout]}>Categoria</Text>
-      <Text style={[styles.cantidad2, styles.cantidadTypo]}>Cantidad</Text>
-      <Text style={[styles.categoria2, styles.cantidadTypo]}>Categoria</Text>
-      <Text style={[styles.piezas, styles.otrosLayout]}>8 piezas</Text>
-      <Text style={[styles.litros, styles.litrosTypo]}>2 litros</Text>
-      <Text style={[styles.frutas1, styles.frutas1Layout]}>Frutas</Text>
-      <Text style={[styles.piezas1, styles.otrosLayout]}>2 piezas</Text>
-      <Text style={[styles.otros1, styles.otrosLayout]}>Otros</Text>
-      <Text style={[styles.lacteos1, styles.litrosTypo]}>Lacteos</Text>
-      <Text style={[styles.manzana, styles.lecheTypo]}>Manzana</Text>
-      <Text style={[styles.manzana, styles.lecheTypo]}>Manzana</Text>
-      <Text style={[styles.leche, styles.lecheTypo]}>Leche</Text>
-      <Text style={[styles.mantequilla, styles.cantidadTypo]}>Mantequilla</Text>
-      <Image
-        style={[styles.ellipseIcon, styles.inventarioChildLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-13.png")}
-      />
-      <Image
-        style={[styles.inventarioChild9, styles.inventarioChildLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-13.png")}
-      />
-      <Image
-        style={[styles.inventarioChild10, styles.inventarioChildLayout]}
-        contentFit="cover"
-        source={require("../assets/ellipse-13.png")}
-      />
-      <Text style={[styles.text4, styles.textFlexBox]}>
-        <Text style={styles.text5}>
-          <Text style={styles.text6}>+</Text>
-        </Text>
-        <Text style={styles.text7}>
-          <Text style={styles.text5}>++</Text>
-          <Text style={styles.text9}>+++</Text>
-        </Text>
-      </Text>
-      <Text style={[styles.text10, styles.textTypo]}></Text>
-      <Text style={[styles.text11, styles.textTypo]}></Text>
-      <Text style={[styles.text12, styles.textTypo]}></Text>
+
     </View>
   );
 };
@@ -175,6 +53,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     letterSpacing: 0,
+    bottom: 100
   },
   textFlexBox: {
     textAlign: "center",
@@ -405,11 +284,13 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   backdrop: {
-    top: 26,
+    top: 100,
     right: 24,
     bottom: 57,
     left: 24,
     position: "absolute",
+    height: 700,
+    width: 370
   },
   splashScreenChild: {
     top: 352,

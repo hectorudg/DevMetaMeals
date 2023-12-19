@@ -42,7 +42,7 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator
-            initialRouteName="Inicio"
+            initialRouteName="Inventario"
             screenOptions={{ headerShown: false }}
           >
             <Stack.Screen
