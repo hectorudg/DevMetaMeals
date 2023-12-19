@@ -3,13 +3,10 @@ export const FontFamily = {
   montserratThin: "Montserrat-Thin",
   aBeeZeeRegular: "ABeeZee-Regular",
   montserratBold: "Montserrat-Bold",
-  fontAwesome6Free: "Font Awesome 6 Free",
   montserratRegular: "Montserrat-Regular",
   montserratSemiBold: "Montserrat-SemiBold",
   montserratExtraBold: "Montserrat-ExtraBold",
   montserratLight: "Montserrat-Light",
-  fontAwesome5Free: "Font Awesome 5 Free",
-  fontAwesome5Brands: "Font Awesome 5 Brands",
 };
 /* font sizes */
 export const FontSize = {

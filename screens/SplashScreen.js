@@ -281,7 +281,6 @@ const styles = StyleSheet.create({
   },
   dismiss1: {
     left: "-38.32%",
-    textDecoration: "underline",
     top: "0%",
     color: Color.textSecondary,
   },

@@ -144,7 +144,6 @@ const styles = StyleSheet.create({
   },
   dismiss1Typo: {
     fontFamily: FontFamily.aBeeZeeRegular,
-    textDecoration: "underline",
     textTransform: "uppercase",
     lineHeight: 18,
     fontSize: FontSize.size_mini,

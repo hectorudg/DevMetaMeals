@@ -212,7 +212,7 @@ const Inicio = ( { navigation }) => {
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
         </View>
-        <Text onPress={() => navigation.navigate('Bienvenido')} style={[styles.genero, styles.generoTypo]}>{`Genero: `}</Text>
+        <Text style={[styles.genero, styles.generoTypo]}>{`Genero: `}</Text>
         <Text style={[styles.edad, styles.edadTypo]}>Edad:</Text>
         <Text style={[styles.peso, styles.edadTypo]}>Peso:</Text>
         <Text style={[styles.estatura, styles.edadTypo]}>Estatura:</Text>
