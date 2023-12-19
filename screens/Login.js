@@ -13,6 +13,32 @@ import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import { Link } from "@react-navigation/native";
 import { Linking } from "react-native";
 
+constructor(props){
+    super(props);
+    this.state={
+      input1:"",
+      input2:"",
+      value:"",
+    };
+
+const validation = () => {
+        var xhttp = new XMLHttpRequest();
+        let _this=this;
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            _this.setState({value:xhttp.responseText});
+            if(_this.state.value=="X"){
+              Alert.alert("Invalid data. Verify and try again or register.");
+            }else if(_this.state.value=="R"){
+              Alert.alert("Activate your account using the link sent during registration.");
+            }else{
+              _this.props.navigation.navigate('Home', {name:_this.state.value});
+            }
+          }
+        };
+        xhttp.open("GET", "https://metameals.000webhostapp.com/Login.php?email="+this.state.input1+"&password="+md5(this.state.input2),true);
+        xhttp.send();
+    };
 const Login = ( { navigation } ) => {
   return (
     <View style={styles.login}>
