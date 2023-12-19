@@ -14,7 +14,6 @@ import { Link } from "@react-navigation/native";
 import { Linking } from "react-native";
 
 
-
 constructor(props){
     super(props);
     this.state={
@@ -41,6 +40,7 @@ const validation = () => {
         xhttp.open("GET", "https://metameals.000webhostapp.com/Login.php?email="+this.state.input1+"&password="+md5(this.state.input2),true);
         xhttp.send();
     };
+    
 const Login = ( { navigation } ) => {
   return (
     <View style={styles.login}>
