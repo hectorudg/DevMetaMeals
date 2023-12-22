@@ -1,10 +1,77 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View } from "react-native";
-import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+  Alert,
+} from "react-native";
+import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
+import SelectBox from 'react-native-multi-selectbox';
+import DropDownPicker from "react-native-dropdown-picker";
+import { xorBy } from 'lodash';
+import { color } from "react-native-reanimated";
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Feather';
+
+
 
 const Inventario = () => {
+
+  const [myIngredients, setMyIngredients]= useState("")
+  const [myIngredientsArray, setMyIngredientsArray]= useState([])
+
+ 
+  const onSubmitAddToList = () =>{
+    var myIngredientsData = {
+      id:new Date(),
+      title: myIngredients,
+    }
+
+    setMyIngredientsArray([...myIngredientsArray,myIngredientsData])
+
+    setMyIngredients('');
+  };
+
+  const renderItemList = ({item}) => {
+
+    const onDeleteItem = (title) =>{
+      const filterData = myIngredientsArray.filter(item => item.title !== title)
+      setMyIngredientsArray(filterData)
+    };
+  
+    return(
+      <TouchableOpacity
+       onPress={() => {
+
+       }}>
+      <View style={styles.buttonprimary2}>
+        
+        <View>
+        <Text style={styles.item}> {item.title}</Text>
+        </View>
+
+        <View>
+        <TouchableOpacity onPress={() => {
+            onDeleteItem(item.title)
+        }}
+                          style={styles.circle_basura}>
+          <Icon name="trash" size={20} color="white" />
+        </TouchableOpacity>
+        </View>
+      </View>
+
+    </TouchableOpacity>
+    );
+  }
+  
   return (
+    
+     
     <View style={styles.inventario}>
       <View style={styles.splashScreen}>
 
@@ -14,11 +81,41 @@ const Inventario = () => {
             contentFit="cover"
             source={require("../assets/backdrop-base2.png")}
           />
+
           <View style={styles.buttonprimary}>
             <Text style={[styles.orderNow, styles.orderNowFlexBox]}>
               Guardar
             </Text>
           </View>
+
+          
+            <TextInput
+              value={myIngredients}
+              keyboardType="default"
+              placeholder="Ingresa un ingrediente..."
+              placeholderTextColor={ Color.colorGray }
+              style={[styles.rectangleView, styles.buttontextLayout]}
+              onChangeText={value=>{
+                setMyIngredients(value)
+              }}
+            />
+          
+
+          <TouchableOpacity 
+            onPress={() => onSubmitAddToList()}>
+            <View style={[styles.circulo ]} onPress={() => onSubmitAddToList()}>
+             <Icon onPress={() => onSubmitAddToList()} name="arrow-right" size={20} color="white"/>
+             </View>
+          </TouchableOpacity>
+
+          <FlatList 
+            style={[styles.lista ]}
+            data={myIngredientsArray}
+            renderItem={renderItemList}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.listaContainer}
+          />
+
           <View style={styles.backdropChild} />
           <Text style={[styles.inventarioEnLaContainer, styles.textFlexBox]}>
             <Text style={styles.inventarioEnLa}>Inventario en la cocina</Text>
@@ -29,16 +126,49 @@ const Inventario = () => {
 
       </View>
       {/* barra negra */}
-      <View style={[styles.rectangleView, styles.buttontextLayout]} />
+      
 
     </View>
   );
+          
 };
 
 const styles = StyleSheet.create({
   buttontextLayout: {
-    height: 24,
+    height: 40,
+    right:200,
     position: "absolute",
+  },
+  circle_basura: {
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  item:{
+    fontSize: 20, 
+    color:"white", 
+    marginRight: 30,
+  },
+  item2:{
+    fontSize: 20, 
+    color:"white", 
+    marginLeft: 15,
+  },
+  lista: {
+    borderColor: Color.colorBlack,
+    borderWidth: 1,
+    top: 180,
+    width: 352,
+    height: 500,
+    position: "absolute",
+  },
+  listaContainer: {
+    alignItems: 'center', // Esto alineará los elementos al centro horizontalmente
+    justifyContent: 'center', // Esto alineará los elementos al centro verticalmente
+    // Puedes ajustar otras propiedades de estilo según tus necesidades
   },
   text1Typo: {
     fontFamily: FontFamily.aBeeZeeRegular,
@@ -53,7 +183,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     textAlign: "center",
     letterSpacing: 0,
-    bottom: 100
   },
   textFlexBox: {
     textAlign: "center",
@@ -177,6 +306,20 @@ const styles = StyleSheet.create({
     left: 310,
     position: "absolute",
   },
+  circulo: {
+    width: 31,
+    height: 31,
+    left: 285,
+    top: 80,
+    borderRadius: 50,
+    backgroundColor: 'black',
+    borderColor: 'white',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: "absolute",
+    zIndex: 3
+  },
   textTypo: {
     left: 320,
     fontSize: FontSize.size_xs,
@@ -258,6 +401,21 @@ const styles = StyleSheet.create({
     height: 39,
     position: "absolute",
   },
+  buttonprimary2: {
+    flexDirection: 'row',
+    margin: 8,
+    padding: 15,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: Border.br_5xs,
+    backgroundColor: Color.colorBlack, 
+    width: 340,
+    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Ajusta según tus necesidades
+    alignItems: 'center',
+    padding: 16,
+  },
   backdropChild: {
     top: 665,
     left: 185,
@@ -268,7 +426,6 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   inventarioEnLa: {
-    fontWeight: "800",
     fontFamily: FontFamily.montserratExtraBold,
   },
   textTypo1: {
@@ -284,13 +441,12 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   backdrop: {
-    top: 100,
+    top: 40,
     right: 24,
     bottom: 57,
     left: 24,
     position: "absolute",
-    height: 700,
-    width: 370
+    height: 780,
   },
   splashScreenChild: {
     top: 352,
@@ -338,10 +494,13 @@ const styles = StyleSheet.create({
     top: 323,
   },
   rectangleView: {
-    top: 96,
-    left: 50,
+    top: 75,
+    left: 28,
     backgroundColor: Color.colorBlack,
+    color: Color.colorWhite,
+    paddingStart: 5,
     width: 303,
+    height: 70,
     borderRadius: Border.br_3xs,
   },
   rectangleIcon: {
