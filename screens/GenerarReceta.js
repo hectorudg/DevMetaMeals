@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TextInput,
   TouchableOpacity,
+  FlatList,
 } from "react-native";
 import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import SelectBox from 'react-native-multi-selectbox';
@@ -14,11 +15,97 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { xorBy } from 'lodash';
 import { color } from "react-native-reanimated";
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/Feather';
 
 const GenerarReceta = ( { navigation }) => {
+
+  const [myIngredients, setMyIngredients]= useState("")
+  const [myIngredientsArray, setMyIngredientsArray]= useState([])
+
+ 
+  const onSubmitAddToList = () =>{
+    var myIngredientsData = {
+      id:new Date(),
+      title: myIngredients,
+    }
+
+    setMyIngredientsArray([...myIngredientsArray,myIngredientsData])
+
+    setMyIngredients('');
+  };
+
+  const renderItemList = ({item}) => {
+
+    const onDeleteItem = (title) =>{
+      const filterData = myIngredientsArray.filter(item => item.title !== title)
+      setMyIngredientsArray(filterData)
+    };
+  
+    return(
+      <TouchableOpacity
+       onPress={() => {
+
+       }}>
+      <View style={styles.buttonprimary2}>
+        
+        <View>
+        <Text style={styles.item}> {item.title}</Text>
+        </View>
+
+        <View>
+        <TouchableOpacity onPress={() => {
+            onDeleteItem(item.title)
+        }}
+                          style={styles.circle_basura}>
+          <Icon name="trash" size={20} color="white" />
+        </TouchableOpacity>
+        </View>
+      </View>
+
+    </TouchableOpacity>
+    );
+  }
+
   return (
     <View style={styles.inicio}>
       <View style={styles.splashScreen}>
+
+      
+          <Text style={[styles.inventarioEnLaContainer, styles.textFlexBox]}>
+            <Text style={styles.inventarioEnLa}>Inventario en la cocina</Text>
+          </Text>
+
+          <TextInput
+              value={myIngredients}
+              keyboardType="default"
+              placeholder="Ingresa un ingrediente..."
+              placeholderTextColor={ Color.colorGray }
+              style={[styles.rectangleView_input, styles.buttontextLayout]}
+              onChangeText={value=>{
+                setMyIngredients(value)
+              }}
+            />
+
+        <TouchableOpacity 
+            onPress={() => onSubmitAddToList()}>
+            <View style={[styles.circulo ]} onPress={() => onSubmitAddToList()}>
+             <Icon onPress={() => onSubmitAddToList()} name="arrow-right" size={20} color="white"/>
+             </View>
+        </TouchableOpacity>
+
+        <FlatList 
+            style={[styles.lista ]}
+            data={myIngredientsArray}
+            renderItem={renderItemList}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.listaContainer}
+        />
+    
+        <TouchableOpacity style={styles.buttonprimary}>
+          <Text style={[styles.orderNow, styles.orderNowFlexBox]}>
+            Generar Receta
+          </Text>
+        </TouchableOpacity>
         
         {/* recetario imagen */}
         <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario')}>
@@ -88,6 +175,22 @@ const styles = StyleSheet.create({
     position: "absolute",
     overflow: "hidden",
   },
+  inventarioEnLaContainer: {
+    top: 55,
+    left: 105,
+    fontSize: FontSize.size_base,
+    color: Color.colorBlack,
+    lineHeight: 41,
+    position: "absolute",
+  },
+  buttontextLayout: {
+    height: 50,
+    right:200,
+    position: "absolute",
+  },
+  inventarioEnLa: {
+    fontFamily: FontFamily.montserratExtraBold,
+  },
   titleFlexBox: {
     justifyContent: "center",
     alignItems: "center",
@@ -96,6 +199,17 @@ const styles = StyleSheet.create({
   icon2Layout: {
     width: 64,
     position: "absolute",
+  },
+  rectangleView_input: {
+    top: 110,
+    left: 45,
+    backgroundColor: Color.colorBlack,
+    color: Color.colorWhite,
+    paddingStart: 5,
+    width: 303,
+    height: 70,
+    borderRadius: Border.br_3xs,
+    position: "absolute"
   },
   dismissTypo: {
     fontWeight: "600",
@@ -205,6 +319,20 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     position: "absolute",
   },
+  circulo: {
+    width: 39,
+    height: 39,
+    left: 285,
+    top: 116,
+    borderRadius: 50,
+    backgroundColor: 'black',
+    borderColor: 'white',
+    borderWidth: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: "absolute",
+    zIndex: 3
+  },
   textTypo: {
     width: 66,
     fontFamily: FontFamily.fontAwesome5Free,
@@ -296,12 +424,13 @@ const styles = StyleSheet.create({
     display: "flex",
   },
   buttonprimary: {
-    top: 424,
+    top: 668,
     right: 20,
-    left: 20,
+    left: 100,
     borderRadius: Border.br_5xs,
     backgroundColor: Color.primaryButton,
-    height: 56,
+    height: 50,
+    width: 200,
     position: "absolute",
   },
   backdropBaseIcon1: {
@@ -440,6 +569,19 @@ const styles = StyleSheet.create({
     left: 155,
     width: 189,
     top: 458,
+  },
+  item:{
+    fontSize: 20, 
+    color:"white", 
+    marginRight: 30,
+  },
+  circle_basura: {
+    width: 30,
+    height: 30,
+    borderRadius: 30,
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   genero: {
     left: 44,
@@ -614,6 +756,21 @@ const styles = StyleSheet.create({
     height: 44,
     position: "absolute",
   },
+  buttonprimary2: {
+    flexDirection: 'row',
+    margin: 17,
+    marginTop: -3,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: Border.br_5xs,
+    backgroundColor: Color.colorBlack, 
+    width: 320,
+    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between', // Ajusta según tus necesidades
+    alignItems: 'center',
+    padding: 12,
+  },
   text3: {
     top: 241,
     left: 278,
@@ -659,19 +816,6 @@ const styles = StyleSheet.create({
     width: 119,
     height: 23,
     position: "absolute",
-  },
-
-  circulo: {
-    width: 72,
-    height: 72,
-    left: 282,
-    top: 52,
-    borderRadius: 50,
-    backgroundColor: 'black',
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: "absolute",
-    zIndex: -1
   },
 
   caloriasDiarias: {
@@ -730,7 +874,15 @@ const styles = StyleSheet.create({
     height: 30,
     position: "absolute",
   },
-
+  lista: {
+    borderColor: Color.colorBlack,
+    borderWidth: 1,
+    top: 179,
+    width: 350,
+    height: 472,
+    left: 18,
+    position: "absolute",
+  },
   childPosition: {
     left: 269,
     height: 23,
@@ -969,15 +1121,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0,
     position: "absolute",
   },
-  buttonprimary: {
-    top: 725,
-    right: 17,
-    left: 199,
-    borderRadius: Border.br_5xs,
-    backgroundColor: Color.primaryButton,
-    height: 39,
-    position: "absolute",
-  },
+
   backdropChild: {
     top: 665,
     left: 186,

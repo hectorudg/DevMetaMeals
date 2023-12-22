@@ -39,10 +39,10 @@ const Inventario = () => {
 
   const renderItemList = ({item}) => {
 
-    const onDeleteItem = (title) =>{
+  const onDeleteItem = (title) =>{
       const filterData = myIngredientsArray.filter(item => item.title !== title)
       setMyIngredientsArray(filterData)
-    };
+  };
   
     return(
       <TouchableOpacity
@@ -82,11 +82,11 @@ const Inventario = () => {
             source={require("../assets/backdrop-base2.png")}
           />
 
-          <View style={styles.buttonprimary}>
+          <TouchableOpacity style={styles.buttonprimary}>
             <Text style={[styles.orderNow, styles.orderNowFlexBox]}>
               Guardar
             </Text>
-          </View>
+          </TouchableOpacity>
 
           
             <TextInput
@@ -104,8 +104,8 @@ const Inventario = () => {
           <TouchableOpacity 
             onPress={() => onSubmitAddToList()}>
             <View style={[styles.circulo ]} onPress={() => onSubmitAddToList()}>
-             <Icon onPress={() => onSubmitAddToList()} name="arrow-right" size={20} color="white"/>
-             </View>
+              <Icon onPress={() => onSubmitAddToList()} name="arrow-right" size={20} color="white"/>
+            </View>
           </TouchableOpacity>
 
           <FlatList 
@@ -123,11 +123,7 @@ const Inventario = () => {
         </View>
 
 
-
       </View>
-      {/* barra negra */}
-      
-
     </View>
   );
           
