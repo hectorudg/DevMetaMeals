@@ -1,92 +1,108 @@
-import React, { useState } from "react";
-import { Image } from "expo-image";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  ImageBackground,
-} from "react-native";
-import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
+import React, {Component, useState } from 'react';
+import {Alert,StyleSheet,Text,View,TextInput,ImageBackground,Image,Border,TouchableOpacity,} from "react-native";
+import {FontSize,FontFamily,Color} from "../GlobalStyles";
 
-const SignUp = ({ navigation }) => {
-  const [rectangleTextInput, setRectangleTextInput] = useState("");
-  const [rectangleTextInput1, setRectangleTextInput1] = useState("");
-  const [rectangleTextInput2, setRectangleTextInput2] = useState("");
+export default class SignUp extends Component {
+ 
 
-  return (
-    <View style={styles.signUp}>
+  constructor(props){
+    super(props);
+    this.state={
+      input1:"",
+      input2:"",
+      input3:"",
+      output:""
+    };
+
   
-      <View style={[styles.backdrop, styles.backdropPosition]}>
-        <Text
-          style={styles.text}
-        >{`When placing an order, select the option “Contactless delivery” and the courier will leave your order at the door.
-`}</Text>
-        <Text style={styles.title}>Non-Contact Deliveries</Text>
-        <View style={[styles.buttontext, styles.iconPosition]}>
-          <Text style={[styles.dismiss, styles.dismissTypo]}>dismiss</Text>
+  }
+
+  render(){
+  
+
+    const validation = () => {
+
+        let _this=this;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            _this.setState({output:xhttp.responseText});
+            console.log(_this.state.output);
+            if(_this.state.output=="X"){
+              Alert.alert("Field missing.");
+            }else{
+              Alert.alert("Succesful registration. Verify your account via mail.");
+              _this.props.navigation.navigate('Bienvenido');
+            }
+          }
+        };
+        xhttp.open("GET", "https://metameals.000webhostapp.com/Register.php?&name="+this.state.input1+"&email="+this.state.input2+"&password="+this.state.input3,true);
+        xhttp.send();
+    };
+    return(
+      <View style={styles.signUp}>
+        <View style={[styles.backdrop, styles.backdropPosition]}>
+          <View style={[styles.buttonprimary, styles.buttonprimaryBg]}>
+            <Text style={[styles.orderNow, styles.orderFlexBox]}>order now</Text>
+          </View>
         </View>
-        <View style={[styles.buttonprimary, styles.buttonprimaryBg]}>
-          <Text style={[styles.orderNow, styles.orderFlexBox]}>order now</Text>
+        <View style={styles.backdrop1}>
+          {/* pop up */}
+          <Image
+            style={[styles.backdropBaseIcon1, styles.backdropIconLayout]}
+            contentFit="cover"
+            source={require("../assets/backdrop-base1.png")}
+          />
+          <Text style={[styles.title1, styles.logoLayout]}>MetaMeals</Text>
+          
+          <TouchableOpacity style={[styles.buttonprimary1, styles.buttonprimaryBg]}>
+            <Text style={[styles.orderNow1, styles.dismiss1Typo]}
+                  onPress={validation}> 
+                  Registrase
+            </Text>
+          </TouchableOpacity>
+
+          <View style={styles.backdropChild} />
         </View>
-      </View>
-      <View style={styles.backdrop1}>
-        {/* pop up */}
-        <Image
-          style={[styles.backdropBaseIcon1, styles.backdropIconLayout]}
-          contentFit="cover"
-          source={require("../assets/backdrop-base1.png")}
-        />
-        <Text style={[styles.title1, styles.logoLayout]}>MetaMeals</Text>
-        <View style={[styles.buttonprimary1, styles.buttonprimaryBg]}>
-          <Text style={[styles.orderNow1, styles.dismiss1Typo]}
-                onPress={() => navigation.navigate('Bienvenido')} >
-            Registrase
-          </Text>
-        </View>
-        <View style={styles.backdropChild} />
-      </View>
-      
-      <TextInput
-        style={[styles.signUpChild, styles.signLayout]}
-        value={rectangleTextInput}
-        onChangeText={setRectangleTextInput}
-        placeholder="Correo"
-        keyboardType="email-address"
-      />
-      <TextInput
-        style={[styles.signUpItem, styles.signLayout]}
-        value={rectangleTextInput1}
-        onChangeText={setRectangleTextInput1}
-        placeholder="Nombre"
-      />
-      <TextInput
-        style={[styles.signUpInner, styles.signLayout]}
-        value={rectangleTextInput2}
-        onChangeText={setRectangleTextInput2}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
-      <View style={[styles.logo, styles.logoLayout]}>
         
-        <ImageBackground
-          style={[styles.lgLogoUdgEnJpgOrig1Icon, styles.logoIconPosition]}
-          resizeMode="cover"
-          source={require("../assets/lglogoudgenjpg-orig-1.png")}
+        <TextInput
+          style={[styles.signUpChild, styles.signLayout]}
+          onChangeText={(input2) => this.setState({ input2 })}
+          placeholder="Correo"
+          keyboardType="email-address"
         />
-      </View>
+        <TextInput
+          style={[styles.signUpItem, styles.signLayout]}
 
-      <View style={[styles.container]}>
-        <ImageBackground
-          style={[styles.logo1Icon, styles.iconLayout ] }
-          resizeMode="cover"
-          source={require("../assets/logo12.png")}
+          onChangeText={(input1) => this.setState({ input1 })}
+          placeholder="Nombre"
         />
-      </View>
+        <TextInput
+          style={[styles.signUpInner, styles.signLayout]}
+          onChangeText={(input3) => this.setState({ input3 })}
+          placeholder="Password"
+          secureTextEntry={true}
+        />
+        <View style={[styles.logo, styles.logoLayout]}>
+          
+          <ImageBackground
+            style={[styles.lgLogoUdgEnJpgOrig1Icon, styles.logoIconPosition]}
+            resizeMode="cover"
+            source={require("../assets/lglogoudgenjpg-orig-1.png")}
+          />
+        </View>
+
+        <View style={[styles.container]}>
+          <ImageBackground
+            style={[styles.logo1Icon, styles.iconLayout ] }
+            resizeMode="cover"
+            source={require("../assets/logo12.png")}
+          />
+        </View>
     </View>
-
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -129,7 +145,7 @@ const styles = StyleSheet.create({
   },
   buttonprimaryBg: {
     backgroundColor: Color.primaryButton,
-    borderRadius: Border.br_5xs,
+    borderRadius: 8,
     position: "absolute",
   },
   orderFlexBox: {
@@ -371,7 +387,7 @@ const styles = StyleSheet.create({
   },
   lgLogoUdgEnJpgOrig1Icon: {
     top: 1,
-    borderRadius: Border.br_25xl,
+    borderRadius: 44,
     width: 62,
     height: 60,
   },
@@ -407,4 +423,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SignUp;

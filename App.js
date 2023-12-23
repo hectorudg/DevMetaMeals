@@ -42,7 +42,7 @@ const App = () => {
       <NavigationContainer>
         {hideSplashScreen ? (
           <Stack.Navigator
-            initialRouteName="MiRecetario"
+            initialRouteName="Login"
             screenOptions={{ headerShown: false }}
           >
             <Stack.Screen
@@ -67,6 +67,11 @@ const App = () => {
             />
             <Stack.Screen
               name="SignUp"
+              component={SignUp}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="SignUp_copy"
               component={SignUp}
               options={{ headerShown: false }}
             />

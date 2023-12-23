@@ -9,6 +9,8 @@ import {
   TextInput,
   ImageBackground,
   KeyboardAvoidingView,
+  TouchableOpacity,
+  Alert
 } from "react-native";
 import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import { Link } from "@react-navigation/native";
@@ -89,14 +91,12 @@ export default class Login extends Component {
             source={require("../assets/backdrop-base1.png")}
           />
           <Text style={styles.title1}>MetaMeals</Text>
-          <View style={styles.buttontext1}>
-          
+          <TouchableOpacity style={styles.buttontext1}>
             <Text style={[styles.dismiss1, styles.dismiss2Typo]} 
                   onPress={() => navigation.navigate('SignUp')} >
               Registrarse
             </Text>
-       
-          </View>
+          </TouchableOpacity>
           <Pressable style={[styles.buttonprimary1, styles.buttonprimaryBg]}>
             <Text style={[styles.orderNow1, styles.dismiss1Typo]}
                   onPress={validation}>

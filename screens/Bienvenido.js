@@ -77,7 +77,7 @@ const Bienvenido = ( {navigation}) => {
     { value: "Femenino", label: "Femenino" },
     { value: "Masculino", label: "Masculino" },
   ]);
-  const [rectangleTextInput, setRectangleTextInput] = useState("");
+  const [Edad, setEdad] = useState("");
   const [rectangleTextInput1, setRectangleTextInput1] = useState("");
   const [rectangleTextInput2, setRectangleTextInput2] = useState("");
   const [rectangleDropdown1Open, setRectangleDropdown1Open] = useState(false);
@@ -129,8 +129,8 @@ const Bienvenido = ( {navigation}) => {
         
         <TextInput
           style={[styles.splashScreenChild, styles.splashLayout]}
-          value={rectangleTextInput}
-          onChangeText={setRectangleTextInput}
+          value={Edad}
+          onChangeText={setEdad}
           keyboardType="numeric"
           placeholder="Edad"
         />
