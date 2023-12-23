@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TextInput,
   TouchableOpacity,
+  FlatList
 } from "react-native";
 import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import SelectBox from 'react-native-multi-selectbox';
@@ -16,9 +17,69 @@ import { color } from "react-native-reanimated";
 import { useNavigation } from '@react-navigation/native';
 
 const MiRecetario = ( { navigation }) => {
+  
+  const [myRecipes, setMyRecipes]= useState("")
+  const [myRecipesArray, setMyRecipesArray]= useState([])
+
+ 
+  const onSubmitAddToList = () =>{
+    var myRecipesData = {
+      id:new Date(),
+      title: myRecipes,
+    }
+    
+    setMyRecipesArray([...myRecipesArray,myRecipesData])
+    setMyRecipes('');
+  };
+
+  const renderItemList = ({item}) => {
+
+    const onDeleteItem = (title) =>{
+      const filterData = myRecipesArray.filter(item => item.title !== title)
+      setMyRecipesArray(filterData)
+    };
+    
+
+    return(
+      <TouchableOpacity
+       onPress={() => {
+
+       }}>
+      <View style={styles.buttonprimary2}>
+        
+        <View>
+        <Text style={styles.item}> {item.title}</Text>
+        </View>
+
+        <View>
+        <TouchableOpacity onPress={() => {
+            onDeleteItem(item.title)
+        }}
+                          style={styles.circle_basura}>
+          <Icon name="trash" size={20} color="white" />
+        </TouchableOpacity>
+        </View>
+      </View>
+
+    </TouchableOpacity>
+    );
+  }
+  
   return (
     <View style={styles.inicio}>
       <View style={styles.splashScreen}>
+        
+          <Text style={[styles.inventarioEnLaContainer, styles.textFlexBox]}>
+            <Text style={styles.inventarioEnLa}>Mis Recetas</Text>
+          </Text>
+
+          <FlatList 
+            style={[styles.lista ]}
+            data={myRecipesArray}
+            renderItem={renderItemList}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.listaContainer}
+        />
         
         {/* recetario imagen */}
         <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario')}>
@@ -403,6 +464,15 @@ const styles = StyleSheet.create({
     display: "none",
     position: "absolute",
   },
+  lista: {
+    borderColor: Color.colorBlack,
+    borderWidth: 1,
+    top: 120,
+    width: 350,
+    height: 570,
+    left: 18,
+    position: "absolute",
+  },
  
   rectangleView: {
     top: 273,
@@ -715,6 +785,10 @@ const styles = StyleSheet.create({
     display: "none",
     position: "absolute",
   },
+  inventarioEnLa: {
+    fontFamily: FontFamily.montserratExtraBold,
+    fontSize: 20
+  },
   textTypo: {
     fontFamily: FontFamily.aBeeZeeRegular,
     textTransform: "uppercase",
@@ -722,6 +796,14 @@ const styles = StyleSheet.create({
     fontSize: FontSize.size_mini,
     textAlign: "center",
     letterSpacing: 0,
+    position: "absolute",
+  },
+  inventarioEnLaContainer: {
+    top: 55,
+    left: 128,
+    fontSize: FontSize.size_base,
+    color: Color.colorBlack,
+    lineHeight: 41,
     position: "absolute",
   },
   splashLayout: {
