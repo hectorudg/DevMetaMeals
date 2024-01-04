@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {Component, useState } from 'react';
 import { Image } from "expo-image";
 import {
   StyleSheet,
@@ -17,13 +17,29 @@ import { xorBy } from 'lodash';
 import { color } from "react-native-reanimated";
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 
 
 const Inventario = () => {
 
+
   const [myIngredients, setMyIngredients]= useState("")
   const [myIngredientsArray, setMyIngredientsArray]= useState([])
+
+  const validation = () => {
+    const cadenaIngredientes = myIngredientsArray.map(item => item.title).join(', ');
+
+    if(cadenaIngredientes == ""){
+      Alert.alert("Ingresa al menos un ingrediente");
+    }
+    else{
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("GET", "https://metameals.000webhostapp.com/AddIngredients.php?&ingredients="+cadenaIngredientes+"&user_id=27",true);
+      xhttp.send();
+      Alert.alert("Guardado");
+    }
+  };  
 
  
   const onSubmitAddToList = () =>{
@@ -39,6 +55,9 @@ const Inventario = () => {
 
   const renderItemList = ({item}) => {
 
+
+
+    
   const onDeleteItem = (title) =>{
       const filterData = myIngredientsArray.filter(item => item.title !== title)
       setMyIngredientsArray(filterData)
@@ -82,8 +101,8 @@ const Inventario = () => {
             source={require("../assets/backdrop-base2.png")}
           />
 
-          <TouchableOpacity style={styles.buttonprimary}>
-            <Text style={[styles.orderNow, styles.orderNowFlexBox]}>
+          <TouchableOpacity style={styles.buttonprimary} onPress={validation}> 
+            <Text style={[styles.orderNow, styles.orderNowFlexBox]} onPress={validation}>
               Guardar
             </Text>
           </TouchableOpacity>

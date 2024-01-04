@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Image } from "expo-image";
-import { StyleSheet, Text, View, TextInput, ScrollView} from "react-native";
+import { Alert,StyleSheet, Text, View, TextInput, ScrollView} from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import SelectBox from 'react-native-multi-selectbox';
@@ -65,12 +65,13 @@ const K_OPTIONS_PREF = [
   },
 ]
 
-const Bienvenido = ( {navigation}) => {
+const Bienvenido = () => {
+
+  
   const [selectedAlergia, setSelectedAlergia] = useState({})
   const [selectedPreferencia, setSelectedPreferencia] = useState({})
   const [selectedAlergias, setSelectedAlergias] = useState([])
   const [selectedPreferencias, setSelectedPreferencias] = useState([])
-  
   const [rectangleDropdownOpen, setRectangleDropdownOpen] = useState(false);
   const [rectangleDropdownValue, setRectangleDropdownValue] = useState("genero");
   const [rectangleDropdownItems, setRectangleDropdownItems] = useState([
@@ -88,7 +89,9 @@ const Bienvenido = ( {navigation}) => {
     { value: "Fuerte", label: "Fuerte" },
   ]);
 
+  
   return (
+
     
 <View style={styles.bienvenido}>
   <View style={[styles.splashScreen, styles.framePosition4]}>
@@ -100,7 +103,7 @@ const Bienvenido = ( {navigation}) => {
 
 <View style={styles.backdrop}>
     <View style={styles.buttonprimary}>
-          <Text style={styles.orderNow}>Continuar</Text>
+          <Text style={styles.orderNow}>Continuar {itemId}</Text>
     </View>
     <View style={[styles.backdropChild, styles.buttontextPosition]} />
 </View>

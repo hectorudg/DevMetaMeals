@@ -1,10 +1,12 @@
 import React, {Component, useState } from 'react';
 import {Alert,StyleSheet,Text,View,TextInput,ImageBackground,Image,Border,TouchableOpacity,} from "react-native";
 import {FontSize,FontFamily,Color} from "../GlobalStyles";
+import { useNavigation } from '@react-navigation/native';
+import Bienvenido from './Bienvenido';
+
 
 export default class SignUp extends Component {
  
-
   constructor(props){
     super(props);
     this.state={
@@ -13,15 +15,10 @@ export default class SignUp extends Component {
       input3:"",
       output:""
     };
-
-  
   }
 
   render(){
-  
-
     const validation = () => {
-
         let _this=this;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
@@ -31,14 +28,16 @@ export default class SignUp extends Component {
             if(_this.state.output=="X"){
               Alert.alert("Field missing.");
             }else{
+              const userId = _this.state.output.slice(0, 2);
               Alert.alert("Succesful registration. Verify your account via mail.");
-              _this.props.navigation.navigate('Bienvenido');
+               _this.props.navigation.navigate('Bienvenido');
             }
           }
         };
         xhttp.open("GET", "https://metameals.000webhostapp.com/Register.php?&name="+this.state.input1+"&email="+this.state.input2+"&password="+this.state.input3,true);
         xhttp.send();
     };
+
     return(
       <View style={styles.signUp}>
         <View style={[styles.backdrop, styles.backdropPosition]}>
@@ -55,7 +54,7 @@ export default class SignUp extends Component {
           />
           <Text style={[styles.title1, styles.logoLayout]}>MetaMeals</Text>
           
-          <TouchableOpacity style={[styles.buttonprimary1, styles.buttonprimaryBg]}>
+          <TouchableOpacity onPress={validation} style={[styles.buttonprimary1, styles.buttonprimaryBg]}>
             <Text style={[styles.orderNow1, styles.dismiss1Typo]}
                   onPress={validation}> 
                   Registrase
