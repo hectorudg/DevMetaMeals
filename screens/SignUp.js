@@ -18,8 +18,8 @@ export default class SignUp extends Component {
   }
 
   render(){
-    const validation = () => {
-        let _this=this;
+    const validation = ( { navigation } ) => {
+        let _this=this; 
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
@@ -30,7 +30,7 @@ export default class SignUp extends Component {
             }else{
               const userId = _this.state.output.slice(0, 2);
               Alert.alert("Succesful registration. Verify your account via mail.");
-               _this.props.navigation.navigate('Bienvenido');
+              _this.props.navigation.navigate('Bienvenido', {userId: userId});
             }
           }
         };

@@ -56,8 +56,6 @@ const Inventario = () => {
   const renderItemList = ({item}) => {
 
 
-
-    
   const onDeleteItem = (title) =>{
       const filterData = myIngredientsArray.filter(item => item.title !== title)
       setMyIngredientsArray(filterData)

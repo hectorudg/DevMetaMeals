@@ -65,9 +65,10 @@ const K_OPTIONS_PREF = [
   },
 ]
 
-const Bienvenido = () => {
+const Bienvenido = ({ route }) => {
+  console.log(route.params.userId);
+  const userId = route.params.userId;
 
-  
   const [selectedAlergia, setSelectedAlergia] = useState({})
   const [selectedPreferencia, setSelectedPreferencia] = useState({})
   const [selectedAlergias, setSelectedAlergias] = useState([])
@@ -103,7 +104,7 @@ const Bienvenido = () => {
 
 <View style={styles.backdrop}>
     <View style={styles.buttonprimary}>
-          <Text style={styles.orderNow}>Continuar {itemId}</Text>
+          <Text style={styles.orderNow}>Continuar</Text>
     </View>
     <View style={[styles.backdropChild, styles.buttontextPosition]} />
 </View>
@@ -190,17 +191,17 @@ const Bienvenido = () => {
     <View style={[styles.frame1, styles.frameLayout6]}>
         <Text
             style={[styles.metamealsEsUna, styles.titleFlexBox1]}
-            >{`  “Metameals es una aplicacion que funciona 
+            >{receivedData} {`  “Metameals es una aplicacion que funciona 
     mediante el uso de Inteligencia Artificial. 
     Por favor ingresa los siguientes datos para 
-    obtener una expreciencia mas personalizada.”`}</Text>
+    obtener una expreciencia mas personalizada.” `}</Text>
     </View>
   </View>
 
   <View style={[styles.frame2, styles.frameLayout5]}>
       <View style={[styles.frame3, styles.frameLayout5]}>
           <Text style={[styles.bienvenido1, styles.text3Text]}>
-            Bienvenido...
+            Bienvenido... 
           </Text>
       </View>
   </View>
@@ -229,8 +230,6 @@ const Bienvenido = () => {
   
 
 };
-
-
 
 
 const styles = StyleSheet.create({
