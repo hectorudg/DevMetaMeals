@@ -67,6 +67,7 @@ const K_OPTIONS_PREF = [
 
 const Bienvenido = ({ route }) => {
   console.log(route.params.userId);
+  //Guarda el Id del usuario registrado
   const userId = route.params.userId;
 
   const [selectedAlergia, setSelectedAlergia] = useState({})
@@ -191,7 +192,7 @@ const Bienvenido = ({ route }) => {
     <View style={[styles.frame1, styles.frameLayout6]}>
         <Text
             style={[styles.metamealsEsUna, styles.titleFlexBox1]}
-            >{receivedData} {`  “Metameals es una aplicacion que funciona 
+            >{`  “Metameals es una aplicacion que funciona 
     mediante el uso de Inteligencia Artificial. 
     Por favor ingresa los siguientes datos para 
     obtener una expreciencia mas personalizada.” `}</Text>
