@@ -66,30 +66,51 @@ const K_OPTIONS_PREF = [
 ]
 
 const Bienvenido = ({ route }) => {
-  console.log(route.params.userId);
+  //console.log(route.params.userId);
   //Guarda el Id del usuario registrado
-  const userId = route.params.userId;
+  //const userId = route.params.userId;
+  const userId = 27;
 
   const [selectedAlergia, setSelectedAlergia] = useState({})
   const [selectedPreferencia, setSelectedPreferencia] = useState({})
   const [selectedAlergias, setSelectedAlergias] = useState([])
   const [selectedPreferencias, setSelectedPreferencias] = useState([])
-  const [rectangleDropdownOpen, setRectangleDropdownOpen] = useState(false);
-  const [rectangleDropdownValue, setRectangleDropdownValue] = useState("genero");
+  const [GeneroOpen, setGeneroOpen] = useState(false);
+  const [Genero, setGenero] = useState("genero");
+  const [ActividadOpen, setActividadOpen] = useState(false);
   const [rectangleDropdownItems, setRectangleDropdownItems] = useState([
     { value: "Femenino", label: "Femenino" },
     { value: "Masculino", label: "Masculino" },
   ]);
   const [Edad, setEdad] = useState("");
-  const [rectangleTextInput1, setRectangleTextInput1] = useState("");
-  const [rectangleTextInput2, setRectangleTextInput2] = useState("");
-  const [rectangleDropdown1Open, setRectangleDropdown1Open] = useState(false);
-  const [rectangleDropdown1Value, setRectangleDropdown1Value] = useState();
+  const [Peso, setPeso] = useState("");
+  const [Estatura, setEstatura] = useState("");
+  const [Actividad, setActividad] = useState(false);
   const [rectangleDropdown1Items, setRectangleDropdown1Items] = useState([
     { value: "Ligero", label: "Ligero" },
     { value: "Moderado", label: "Moderado" },
     { value: "Fuerte", label: "Fuerte" },
   ]);
+
+  const validation = () => {
+
+    const strAlergias     = JSON.stringify(selectedAlergias);
+    const strPreferencias = JSON.stringify(strPreferencias);
+
+    console.log( Genero, Edad,  Peso, Estatura,
+                 Actividad, strAlergias, strPreferencias);
+
+    if(Genero    == "" || Edad == "" || Peso == "" || Estatura == "" ||
+       Actividad == "" || selectedAlergias == "" || selectedPreferencias == ""){
+        Alert.alert("Para continuar completa todos los campos.");
+    }
+    else{
+      var xhttp = new XMLHttpRequest();
+     // xhttp.open("GET", "https://metameals.000webhostapp.com/AddDataUser.php?&genero="+Genero+"&edad="+Edad+"&peso="+Peso+"&estatura="+Estatura+"&actividad="+Actividad+"&alergias="+strAlergias+"&preferencias="+strPreferencias+"&user_id="+userId,true);
+      //xhttp.send();
+      Alert.alert("Guardado");
+    }
+  };  
 
   
   return (
@@ -104,8 +125,8 @@ const Bienvenido = ({ route }) => {
     />
 
 <View style={styles.backdrop}>
-    <View style={styles.buttonprimary}>
-          <Text style={styles.orderNow}>Continuar</Text>
+    <View style={styles.buttonprimary} onPress={validation}>
+          <Text style={styles.orderNow} onPress={validation}>Continuar</Text>
     </View>
     <View style={[styles.backdropChild, styles.buttontextPosition]} />
 </View>
@@ -123,10 +144,10 @@ const Bienvenido = ({ route }) => {
         <View style={[styles.wrapper]}>
         {/* genero */}
         <DropDownPicker style={{ minHeight: 7 }}
-            open={rectangleDropdownOpen}
-            setOpen={setRectangleDropdownOpen}
-            value={rectangleDropdownValue}
-            setValue={setRectangleDropdownValue}
+            open={GeneroOpen}
+            setOpen={setGeneroOpen}
+            value={Genero}
+            setValue={setGenero}
             items={rectangleDropdownItems}
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
@@ -141,15 +162,15 @@ const Bienvenido = ({ route }) => {
         />
         <TextInput
           style={[styles.splashScreenItem, styles.splashLayout]}
-          value={rectangleTextInput1}
-          onChangeText={setRectangleTextInput1}
+          value={Peso}
+          onChangeText={setPeso}
           keyboardType="decimal-pad"
           placeholder="Peso"
         />
         <TextInput
           style={[styles.splashScreenInner, styles.splashLayout]}
-          value={rectangleTextInput2}
-          onChangeText={setRectangleTextInput2}
+          value={Estatura}
+          onChangeText={setEstatura}
           keyboardType="decimal-pad"
           placeholder="Estatura"
         />
@@ -157,10 +178,10 @@ const Bienvenido = ({ route }) => {
         <View style={styles.container}>
         <DropDownPicker
             style={styles.dropdownpicker}
-            open={rectangleDropdown1Open}
-            setOpen={setRectangleDropdown1Open}
-            value={rectangleDropdown1Value}
-            setValue={setRectangleDropdown1Value}
+            open={ActividadOpen}
+            setOpen={setActividadOpen}
+            value={Actividad}
+            setValue={setActividad}
             items={rectangleDropdown1Items}
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
