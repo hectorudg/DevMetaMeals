@@ -21,13 +21,14 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 
 
-const Inventario = () => {
-
+const Inventario = ({route, navigation}) => {
+  const userId = route.params?.userId || 0; 
 
   const [myIngredients, setMyIngredients]= useState("")
   const [myIngredientsArray, setMyIngredientsArray]= useState([])
 
   const validation = () => {
+    
     const cadenaIngredientes = myIngredientsArray.map(item => item.title).join(', ');
 
     if(cadenaIngredientes == ""){
@@ -35,9 +36,10 @@ const Inventario = () => {
     }
     else{
       var xhttp = new XMLHttpRequest();
-      xhttp.open("GET", "https://metameals.000webhostapp.com/AddIngredients.php?&ingredients="+cadenaIngredientes+"&user_id=27",true);
+      xhttp.open("GET", "https://metameals.000webhostapp.com/AddIngredients.php?&ingredients="+cadenaIngredientes+"&user_id="+userId,true);
       xhttp.send();
       Alert.alert("Guardado");
+      navigation.navigate('Inicio', {userId: userId});
     }
   };  
 
@@ -104,8 +106,7 @@ const Inventario = () => {
               Guardar
             </Text>
           </TouchableOpacity>
-
-          
+     
             <TextInput
               value={myIngredients}
               keyboardType="default"

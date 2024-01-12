@@ -29,7 +29,7 @@ export default class Login extends Component {
 
   render(){
     const registration = () => {
-        this.props.navigation.navigate('Register');
+        this.props.navigation.navigate('SignUp');
     };
     const validation = () => {
       var xhttp = new XMLHttpRequest();
@@ -78,11 +78,7 @@ export default class Login extends Component {
           <View style={styles.buttontext}>
             <Text style={[styles.dismiss, styles.dismissTypo]}>dismiss</Text>
           </View>
-          <View style={[styles.buttonprimary, styles.buttonprimaryBg]}>
-            <Text style={[styles.orderNow, styles.orderFlexBox]}>
-              order now
-            </Text>
-          </View>
+
         </View>
         <View style={styles.backdrop1}>
         <Image
@@ -90,10 +86,8 @@ export default class Login extends Component {
             contentFit="cover"
             source={require("../assets/backdrop-base1.png")}
           />
-          <Text style={styles.title1}>MetaMeals</Text>
-          <TouchableOpacity style={styles.buttontext1}>
-            <Text style={[styles.dismiss1, styles.dismiss2Typo]} 
-                  onPress={() => navigation.navigate('SignUp')} >
+          <TouchableOpacity style={styles.buttontext1} onPress={registration}>
+            <Text style={[styles.dismiss1, styles.dismiss2Typo]} onPress={registration}>
               Registrarse
             </Text>
           </TouchableOpacity>

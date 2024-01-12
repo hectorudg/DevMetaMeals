@@ -74,6 +74,10 @@ const K_OPTIONS_PREF = [
 ]
 
 const Inicio = ( { navigation }) => {
+  const userId = route.params?.userId || 0; 
+
+  console.log('inicio '+ userId);
+  
   const [selectedAlergia, setSelectedAlergia] = useState({})
   const [selectedPreferencia, setSelectedPreferencia] = useState({})
   const [selectedAlergias, setSelectedAlergias] = useState([])

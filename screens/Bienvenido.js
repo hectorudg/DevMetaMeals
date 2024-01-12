@@ -65,11 +65,9 @@ const K_OPTIONS_PREF = [
   },
 ]
 
-const Bienvenido = ({ route }) => {
-  //console.log(route.params.userId);
+const Bienvenido = ({ route, navigation}) => {
   //Guarda el Id del usuario registrado
-  //const userId = route.params.userId;
-  const userId = 27;
+  const userId = route.params?.userId || 0;
 
   const [selectedAlergia, setSelectedAlergia] = useState({})
   const [selectedPreferencia, setSelectedPreferencia] = useState({})
@@ -95,10 +93,7 @@ const Bienvenido = ({ route }) => {
   const validation = () => {
 
     const strAlergias     = JSON.stringify(selectedAlergias);
-    const strPreferencias = JSON.stringify(strPreferencias);
-
-    console.log( Genero, Edad,  Peso, Estatura,
-                 Actividad, strAlergias, strPreferencias);
+    const strPreferencias = JSON.stringify(selectedPreferencias);
 
     if(Genero    == "" || Edad == "" || Peso == "" || Estatura == "" ||
        Actividad == "" || selectedAlergias == "" || selectedPreferencias == ""){
@@ -106,9 +101,11 @@ const Bienvenido = ({ route }) => {
     }
     else{
       var xhttp = new XMLHttpRequest();
-     // xhttp.open("GET", "https://metameals.000webhostapp.com/AddDataUser.php?&genero="+Genero+"&edad="+Edad+"&peso="+Peso+"&estatura="+Estatura+"&actividad="+Actividad+"&alergias="+strAlergias+"&preferencias="+strPreferencias+"&user_id="+userId,true);
-      //xhttp.send();
+
+      xhttp.open("GET", "https://metameals.000webhostapp.com/AddDataUser.php?&genero="+Genero+"&edad="+Edad+"&peso="+Peso+"&estatura="+Estatura+"&actividad="+Actividad+"&alergias="+strAlergias+"&preferencias="+strPreferencias+"&user_id="+userId,true);
+      xhttp.send();
       Alert.alert("Guardado");
+      navigation.navigate('Inventario', {userId: userId});
     }
   };  
 
