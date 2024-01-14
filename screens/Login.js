@@ -42,7 +42,8 @@ export default class Login extends Component {
           }else if(_this.state.value=="R"){
             Alert.alert("Activate your account using the link sent during registration.");
           }else{
-            _this.props.navigation.navigate('Inicio');
+            const Response = _this.state.value.split('|');
+            _this.props.navigation.navigate('Inicio', {userId: Response[1], name: Response[0]});
           }
         }
       };

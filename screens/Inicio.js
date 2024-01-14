@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import {
   StyleSheet,
@@ -73,34 +73,57 @@ const K_OPTIONS_PREF = [
   },
 ]
 
-const Inicio = ( { navigation }) => {
+const Inicio = ( { route, navigation }) => {
   const userId = route.params?.userId || 0; 
+  const name = route.params?.name || ""; 
 
-  console.log('inicio '+ userId);
-  
   const [selectedAlergia, setSelectedAlergia] = useState({})
   const [selectedPreferencia, setSelectedPreferencia] = useState({})
   const [selectedAlergias, setSelectedAlergias] = useState([])
   const [selectedPreferencias, setSelectedPreferencias] = useState([])
   
   const [rectangleDropdownOpen, setRectangleDropdownOpen] = useState(false);
-  const [rectangleDropdownValue, setRectangleDropdownValue] = useState("genero");
+  const [rectangleDropdownValue, setGenero] = useState("Genero");
   const [rectangleDropdownItems, setRectangleDropdownItems] = useState([
     { value: "Femenino", label: "Femenino" },
     { value: "Masculino", label: "Masculino" },
   ]);
-  const [rectangleTextInput, setRectangleTextInput] = useState("");
-  const [rectangleTextInput1, setRectangleTextInput1] = useState("");
-  const [rectangleTextInput2, setRectangleTextInput2] = useState("");
+  const [rectangleTextInput, setEdad] = useState("");
+  const [rectangleTextInput1, setPeso] = useState("");
+  const [rectangleTextInput2, setEstatura] = useState("");
   const [rectangleDropdown1Open, setRectangleDropdown1Open] = useState(false);
-  const [rectangleDropdown1Value, setRectangleDropdown1Value] = useState();
+  const [rectangleDropdown1Value, setActividad] = useState();
   const [rectangleDropdown1Items, setRectangleDropdown1Items] = useState([
     { value: "Ligero", label: "Ligero" },
     { value: "Moderado", label: "Moderado" },
     { value: "Fuerte", label: "Fuerte" },
   ]);
 
+ useEffect(() => {
+    var xhttp = new XMLHttpRequest();
+  
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          var response = this.responseText;
+          const jsonObject = JSON.parse(response);
+          const jsonPreferencias = JSON.parse(jsonObject.preferencias);
+          const jsonAlergias = JSON.parse(jsonObject.alergias);
+          setGenero(jsonObject.genero);
+          setEdad(jsonObject.edad);
+          setPeso(jsonObject.peso);
+          setEstatura(jsonObject.estatura);
+          setActividad(jsonObject.actividad);
+          setSelectedAlergias(jsonAlergias);
+          setSelectedPreferencias(jsonPreferencias);
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/GetUserInfo.php?userId=" + userId, true);
+      xhttp.send();
+  });
+
   return (
+
     <View style={styles.inicio}>
       <View style={styles.splashScreen}>
         
@@ -112,9 +135,9 @@ const Inicio = ( { navigation }) => {
         />
         </TouchableOpacity>
         <Text style={[styles.holaHector, styles.title1Clr]}>
-          Hola {"{USER_NAME}"} ...
+          Bienvenido {name}
         </Text>
-        <Text style={[styles.cerrarSesin, styles.title1Clr]}>
+        <Text style={[styles.cerrarSesin, styles.title1Clr]} onPress={() => navigation.navigate('Login')}>
           Cerrar Sesión
         </Text>
       {/* Icono central IA */}
@@ -174,10 +197,10 @@ const Inicio = ( { navigation }) => {
         <View style={[styles.wrapper]}>
         {/* genero */}
         <DropDownPicker style={{ minHeight: 7 }}
-            open={rectangleDropdownOpen}
-            setOpen={setRectangleDropdownOpen}
-            value={rectangleDropdownValue}
-            setValue={setRectangleDropdownValue}
+            open={rectangleDropdownOpen} 
+            setOpen={setRectangleDropdownOpen} 
+            value={rectangleDropdownValue} 
+            setValue={setGenero} 
             items={rectangleDropdownItems}
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
@@ -186,21 +209,21 @@ const Inicio = ( { navigation }) => {
         <TextInput
           style={[styles.splashScreenChild, styles.splashLayout]}
           value={rectangleTextInput}
-          onChangeText={setRectangleTextInput}
+          onChangeText={setEdad} 
           keyboardType="numeric"
           placeholder="Edad"
         />
         <TextInput
           style={[styles.splashScreenItem, styles.splashLayout]}
           value={rectangleTextInput1}
-          onChangeText={setRectangleTextInput1}
+          onChangeText={setPeso} 
           keyboardType="decimal-pad"
           placeholder="Peso"
         />
         <TextInput
           style={[styles.splashScreenInner, styles.splashLayout]}
-          value={rectangleTextInput2}
-          onChangeText={setRectangleTextInput2}
+          value={rectangleTextInput2} 
+          onChangeText={setEstatura}
           keyboardType="decimal-pad"
           placeholder="Estatura"
         />
@@ -211,7 +234,7 @@ const Inicio = ( { navigation }) => {
             open={rectangleDropdown1Open}
             setOpen={setRectangleDropdown1Open}
             value={rectangleDropdown1Value}
-            setValue={setRectangleDropdown1Value}
+            setValue={setActividad}
             items={rectangleDropdown1Items}
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
@@ -304,6 +327,7 @@ const styles = StyleSheet.create({
     color: Color.colorBlack,
     textAlign: "center",
     letterSpacing: 0,
+    zIndex: 10
   },
   rectangleChildLayout: {
     height: 23,
@@ -575,6 +599,7 @@ const styles = StyleSheet.create({
     fontFamily: FontFamily.montserratLight,
     lineHeight: 41,
     position: "absolute",
+    zIndex: 10
   },
   splashScreenInner: {
     top: 168,
@@ -906,6 +931,7 @@ const styles = StyleSheet.create({
     position: "absolute",
   },
   splashLayout: {
+    paddingStart:7,
     width: 179,
     left: 126,
     height: 30,
