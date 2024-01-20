@@ -24,10 +24,10 @@ export default class SignUp extends Component {
         xhttp.onreadystatechange = function() {
           if (this.readyState == 4 && this.status == 200) {
             _this.setState({output:xhttp.responseText});
-            console.log(_this.state.output);
             if(_this.state.output=="X"){
               Alert.alert("Field missing.");
             }else{
+              //Aumentar a 3 cuando id sea mayor a 99
               const userId = _this.state.output.slice(0, 2);
               Alert.alert("Succesful registration. Verify your account via mail.");
               _this.props.navigation.navigate('Bienvenido', {userId: userId});

@@ -6,6 +6,7 @@ import {
   View,
   ImageBackground,
   TextInput,
+  Alert,
   TouchableOpacity,
 } from "react-native";
 import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
@@ -92,16 +93,15 @@ const Inicio = ( { route, navigation }) => {
   const [rectangleTextInput1, setPeso] = useState("");
   const [rectangleTextInput2, setEstatura] = useState("");
   const [rectangleDropdown1Open, setRectangleDropdown1Open] = useState(false);
-  const [rectangleDropdown1Value, setActividad] = useState();
+  const [rectangleDropdown1Value, setActividad] = useState("Actividad");
   const [rectangleDropdown1Items, setRectangleDropdown1Items] = useState([
     { value: "Ligero", label: "Ligero" },
     { value: "Moderado", label: "Moderado" },
     { value: "Fuerte", label: "Fuerte" },
   ]);
 
- useEffect(() => {
-    var xhttp = new XMLHttpRequest();
-  
+  useEffect(() => {
+      var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
           var response = this.responseText;
@@ -115,14 +115,81 @@ const Inicio = ( { route, navigation }) => {
           setActividad(jsonObject.actividad);
           setSelectedAlergias(jsonAlergias);
           setSelectedPreferencias(jsonPreferencias);
+          console.log(response);  
         }
       };
       
       xhttp.open("GET", "https://metameals.000webhostapp.com/GetUserInfo.php?userId=" + userId, true);
       xhttp.send();
-  });
+  },[]);
+
+  const updateGenero = () =>{
+    var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&genero="+rectangleDropdownValue+"&user_id="+userId,true);
+      xhttp.send();
+  }
+
+  const updateActividad = () =>{
+    var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&actividad="+rectangleDropdown1Value+"&user_id="+userId,true);
+      xhttp.send();
+  };
+
+  const updatePeso = () =>{
+    var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          Alert.alert("Guardado!");
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&peso="+rectangleTextInput1+"&user_id="+userId,true);
+      xhttp.send();
+  }
+
+  const updateEdad = () =>{
+
+    var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          Alert.alert("Guardado!");
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&edad="+rectangleTextInput+"&user_id="+userId,true);
+      xhttp.send();
+  }
+
+  const updateEstatura = () =>{
+
+    var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          Alert.alert("Guardado!");
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&estatura="+rectangleTextInput2+"&user_id="+userId,true);
+      xhttp.send();
+  }
+  const hola = () =>{
+    console.log("hiude");
+  }
 
   return (
+
 
     <View style={styles.inicio}>
       <View style={styles.splashScreen}>
@@ -190,7 +257,7 @@ const Inicio = ( { route, navigation }) => {
               options={K_OPTIONS_ALERGIAS}
               selectedValues={selectedAlergias}
               onMultiSelect={onMultiChange()}
-              onTapClose={onMultiChange()}
+              onTapClose={updateMultiChange()}
               isMulti
             />
       </View>
@@ -201,6 +268,7 @@ const Inicio = ( { route, navigation }) => {
             setOpen={setRectangleDropdownOpen} 
             value={rectangleDropdownValue} 
             setValue={setGenero} 
+            onChangeValue={()=>updateGenero()}
             items={rectangleDropdownItems}
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
@@ -210,6 +278,7 @@ const Inicio = ( { route, navigation }) => {
           style={[styles.splashScreenChild, styles.splashLayout]}
           value={rectangleTextInput}
           onChangeText={setEdad} 
+          onSubmitEditing={()=>updateEdad()}
           keyboardType="numeric"
           placeholder="Edad"
         />
@@ -217,6 +286,7 @@ const Inicio = ( { route, navigation }) => {
           style={[styles.splashScreenItem, styles.splashLayout]}
           value={rectangleTextInput1}
           onChangeText={setPeso} 
+          onSubmitEditing={()=>updatePeso()}
           keyboardType="decimal-pad"
           placeholder="Peso"
         />
@@ -224,6 +294,7 @@ const Inicio = ( { route, navigation }) => {
           style={[styles.splashScreenInner, styles.splashLayout]}
           value={rectangleTextInput2} 
           onChangeText={setEstatura}
+          onSubmitEditing={()=>updateEstatura()}
           keyboardType="decimal-pad"
           placeholder="Estatura"
         />
@@ -235,6 +306,7 @@ const Inicio = ( { route, navigation }) => {
             setOpen={setRectangleDropdown1Open}
             value={rectangleDropdown1Value}
             setValue={setActividad}
+            onChangeValue={()=>updateActividad()}
             items={rectangleDropdown1Items}
             dropDownContainerStyle={styles.rectangleDropdown1dropDownContainer}
           />
@@ -262,10 +334,11 @@ const Inicio = ( { route, navigation }) => {
     <View style={[styles.frame4, styles.frameLayout4]}>
           <SelectBox style={[styles.frameChild, styles.frameLayout4]}
             label="Select multiple"
-            options={K_OPTIONS_PREF }
+            options={K_OPTIONS_PREF}
             selectedValues={selectedPreferencias}
             onMultiSelect={onMultiChangePref()}
             onTapClose={onMultiChangePref()}
+            onSel={()=>hola()}
             isMulti
           />
     </View>
@@ -276,7 +349,31 @@ const Inicio = ( { route, navigation }) => {
     </View>
   );
 
+  function updateMultiChange(){
+    const strAlergias = JSON.stringify(selectedAlergias);
+
+    if(selectedAlergias == ""){
+  
+    }
+    else{
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&alergias="+strAlergias+"&user_id="+userId,true);
+      xhttp.send();
+    }
+
+    return (item) => setSelectedAlergias(xorBy(selectedAlergias, [item], 'id'))
+  }
+
+
   function onMultiChange() {
+    console.log("hola1")
+   
     return (item) => setSelectedAlergias(xorBy(selectedAlergias, [item], 'id'))
   }
 
