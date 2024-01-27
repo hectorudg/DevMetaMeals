@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import {
   StyleSheet,
@@ -17,25 +17,50 @@ import { color } from "react-native-reanimated";
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
-const GenerarReceta = ( { navigation }) => {
+
+const GenerarReceta = ( { navigation, route }) => {
+  const userId = route.params?.userId || 0;
 
   const [myIngredients, setMyIngredients]= useState("")
   const [myIngredientsArray, setMyIngredientsArray]= useState([])
 
- 
+  useEffect(() => {
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var response = this.responseText;
+        console.log(response)
+        const jsonObject = JSON.parse(response);
+        const jsoningre = JSON.parse(jsonObject.ingredients);
+        // var strArray = jsonObject.ingredients;
+
+        setMyIngredientsArray(jsoningre)
+   
+       
+  
+    }
+  };
+    
+    xhttp.open("GET", "https://metameals.000webhostapp.com/GetIngredients.php?userId=" + userId, true);
+    xhttp.send();
+  },[]);
+
+
+
   const onSubmitAddToList = () =>{
+    console.log(myIngredientsArray)
     var myIngredientsData = {
       id:new Date(),
       title: myIngredients,
     }
 
-    setMyIngredientsArray([...myIngredientsArray,myIngredientsData])
-
+    setMyIngredientsArray([...myIngredientsArray,myIngredientsData]);
     setMyIngredients('');
   };
 
-  const renderItemList = ({item}) => {
 
+  const renderItemList = ({item}) => {
+    
     const onDeleteItem = (title) =>{
       const filterData = myIngredientsArray.filter(item => item.title !== title)
       setMyIngredientsArray(filterData)
@@ -116,9 +141,8 @@ const GenerarReceta = ( { navigation }) => {
         </TouchableOpacity>
 
       {/* Icono central IA */}
-      <TouchableOpacity style={[styles.icon1, styles.icon1Position]} onPress={() => navigation.navigate('GenerarReceta')}>
+      <TouchableOpacity style={[styles.icon1, styles.icon1Position]} onPress={() => navigation.navigate('GenerarReceta', {userId: userId})}>
       <Image
-        onPress={() => navigation.navigate('Bienvenido')}
         style={{  width: 75, height: 75,}}
         contentFit= "contain"
         source={require("../assets/icon2.png")}
@@ -127,7 +151,7 @@ const GenerarReceta = ( { navigation }) => {
  
       {/* icono home */}
       <TouchableOpacity style={[styles.icon2, styles.icon2Layout]}
-                          onPress={() => navigation.navigate('Inicio')}>
+                          onPress={() => navigation.navigate('Inicio', {userId: userId})}>
         <Image
           style={{  width: 67, height: 67, top: -3}}
           contentFit= "contain"
@@ -159,13 +183,6 @@ const GenerarReceta = ( { navigation }) => {
     </View>
   );
 
-  function onMultiChange() {
-    return (item) => setSelectedAlergias(xorBy(selectedAlergias, [item], 'id'))
-  }
-
-  function onMultiChangePref() {
-    return (item) => setSelectedPreferencias(xorBy(selectedPreferencias, [item], 'id'))
-  }
 }
 
 const styles = StyleSheet.create({

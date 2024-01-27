@@ -114,8 +114,7 @@ const Inicio = ( { route, navigation }) => {
           setEstatura(jsonObject.estatura);
           setActividad(jsonObject.actividad);
           setSelectedAlergias(jsonAlergias);
-          setSelectedPreferencias(jsonPreferencias);
-          console.log(response);  
+          setSelectedPreferencias(jsonPreferencias); 
         }
       };
       
@@ -184,9 +183,7 @@ const Inicio = ( { route, navigation }) => {
       xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&estatura="+rectangleTextInput2+"&user_id="+userId,true);
       xhttp.send();
   }
-  const hola = () =>{
-    console.log("hiude");
-  }
+
 
   return (
 
@@ -208,7 +205,7 @@ const Inicio = ( { route, navigation }) => {
           Cerrar Sesión
         </Text>
       {/* Icono central IA */}
-      <TouchableOpacity style={[styles.icon1, styles.icon1Position]} onPress={() => navigation.navigate('GenerarReceta')}>
+      <TouchableOpacity style={[styles.icon1, styles.icon1Position]} onPress={() => navigation.navigate('GenerarReceta', {userId: userId})}>
       <Image
         onPress={() => navigation.navigate('Bienvenido')}
         style={{  width: 75, height: 75,}}
@@ -337,8 +334,7 @@ const Inicio = ( { route, navigation }) => {
             options={K_OPTIONS_PREF}
             selectedValues={selectedPreferencias}
             onMultiSelect={onMultiChangePref()}
-            onTapClose={onMultiChangePref()}
-            onSel={()=>hola()}
+            onTapClose={updateMultiChangePref()} 
             isMulti
           />
     </View>
@@ -370,10 +366,29 @@ const Inicio = ( { route, navigation }) => {
     return (item) => setSelectedAlergias(xorBy(selectedAlergias, [item], 'id'))
   }
 
+  function updateMultiChangePref(){
+    const strPreferencias = JSON.stringify(selectedPreferencias);
+
+    if(selectedPreferencias == ""){
+  
+    }
+    else{
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+          
+        }
+      };
+      
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateUserInfo.php?&preferencias="+strPreferencias+"&user_id="+userId,true);
+      xhttp.send();
+    }
+
+    return (item) => setSelectedPreferencias(xorBy(selectedPreferencias, [item], 'id'))
+  }
+
 
   function onMultiChange() {
-    console.log("hola1")
-   
     return (item) => setSelectedAlergias(xorBy(selectedAlergias, [item], 'id'))
   }
 

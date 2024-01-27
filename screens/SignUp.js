@@ -26,7 +26,11 @@ export default class SignUp extends Component {
             _this.setState({output:xhttp.responseText});
             if(_this.state.output=="X"){
               Alert.alert("Field missing.");
-            }else{
+            }
+            if(_this.state.output=="Duplicate"){
+              Alert.alert("Correo Duplicado.");
+            }
+            else{
               //Aumentar a 3 cuando id sea mayor a 99
               const userId = _this.state.output.slice(0, 2);
               Alert.alert("Succesful registration. Verify your account via mail.");

@@ -29,7 +29,7 @@ const Inventario = ({route, navigation}) => {
 
   const validation = () => {
     
-    const cadenaIngredientes = myIngredientsArray.map(item => item.title).join(', ');
+    const cadenaIngredientes     = JSON.stringify(myIngredientsArray);
 
     if(cadenaIngredientes == ""){
       Alert.alert("Ingresa al menos un ingrediente");
