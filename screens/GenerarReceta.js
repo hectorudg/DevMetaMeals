@@ -8,12 +8,13 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Alert,
 } from "react-native";
 import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import SelectBox from 'react-native-multi-selectbox';
 import DropDownPicker from "react-native-dropdown-picker";
 import { xorBy } from 'lodash';
-import { color } from "react-native-reanimated";
+import { color, cos } from "react-native-reanimated";
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -24,20 +25,15 @@ const GenerarReceta = ( { navigation, route }) => {
   const [myIngredients, setMyIngredients]= useState("")
   const [myIngredientsArray, setMyIngredientsArray]= useState([])
 
+
   useEffect(() => {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
       if (this.readyState == 4 && this.status == 200) {
         var response = this.responseText;
-        console.log(response)
         const jsonObject = JSON.parse(response);
         const jsoningre = JSON.parse(jsonObject.ingredients);
-        // var strArray = jsonObject.ingredients;
-
         setMyIngredientsArray(jsoningre)
-   
-       
-  
     }
   };
     
@@ -46,9 +42,8 @@ const GenerarReceta = ( { navigation, route }) => {
   },[]);
 
 
-
   const onSubmitAddToList = () =>{
-    console.log(myIngredientsArray)
+
     var myIngredientsData = {
       id:new Date(),
       title: myIngredients,
@@ -56,6 +51,27 @@ const GenerarReceta = ( { navigation, route }) => {
 
     setMyIngredientsArray([...myIngredientsArray,myIngredientsData]);
     setMyIngredients('');
+
+    var myIngredientsData = {
+      id:new Date(),
+      title: myIngredients,
+    }
+
+    setMyIngredientsArray([...myIngredientsArray,myIngredientsData]);
+    setMyIngredients('');
+
+    myIngredientsArray.push(myIngredientsData);
+    
+    const cadenaIngredientes = JSON.stringify(myIngredientsArray);
+
+    if(cadenaIngredientes == ""){
+      Alert.alert("Ingresa al menos un ingrediente");
+    }
+    else{
+      var xhttp = new XMLHttpRequest();
+      xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateIngredients.php?&ingredients="+cadenaIngredientes+"&user_id="+userId,true);
+      xhttp.send();
+    }
   };
 
 
@@ -64,8 +80,20 @@ const GenerarReceta = ( { navigation, route }) => {
     const onDeleteItem = (title) =>{
       const filterData = myIngredientsArray.filter(item => item.title !== title)
       setMyIngredientsArray(filterData)
+
+      const cadenaIngredientes = JSON.stringify(myIngredientsArray);
+
+      if(cadenaIngredientes == ""){
+        Alert.alert("Ingresa al menos un ingrediente");
+      }
+      else{
+        var xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "https://metameals.000webhostapp.com/UpdateIngredients.php?&ingredients="+cadenaIngredientes+"&user_id="+userId,true);
+        xhttp.send();
+      }
     };
-  
+
+
     return(
       <TouchableOpacity
        onPress={() => {

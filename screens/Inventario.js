@@ -19,8 +19,6 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
-
-
 const Inventario = ({route, navigation}) => {
   const userId = route.params?.userId || 0; 
 
@@ -29,7 +27,7 @@ const Inventario = ({route, navigation}) => {
 
   const validation = () => {
     
-    const cadenaIngredientes     = JSON.stringify(myIngredientsArray);
+    const cadenaIngredientes = JSON.stringify(myIngredientsArray);
 
     if(cadenaIngredientes == ""){
       Alert.alert("Ingresa al menos un ingrediente");
