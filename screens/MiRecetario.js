@@ -16,8 +16,9 @@ import { xorBy } from 'lodash';
 import { color } from "react-native-reanimated";
 import { useNavigation } from '@react-navigation/native';
 
-const MiRecetario = ( { navigation }) => {
+const MiRecetario = ( { navigation, route }) => {
   
+  const userId = route.params?.userId || 0;
   const [myRecipes, setMyRecipes]= useState("")
   const [myRecipesArray, setMyRecipesArray]= useState([])
 
@@ -82,7 +83,7 @@ const MiRecetario = ( { navigation }) => {
         />
         
         {/* recetario imagen */}
-        <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario')}>
+        <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario', {userId: userId})}>
         <Image
           style={{  width: 57, height: 57,}}
           source={require("../assets/image-1.png")}
@@ -90,9 +91,9 @@ const MiRecetario = ( { navigation }) => {
         </TouchableOpacity>
 
       {/* Icono central IA */}
-      <TouchableOpacity style={[styles.icon1, styles.icon1Position]} onPress={() => navigation.navigate('GenerarReceta')}>
+      <TouchableOpacity style={[styles.icon1, styles.icon1Position]} onPress={() => navigation.navigate('GenerarReceta', {userId: userId})}>
       <Image
-        onPress={() => navigation.navigate('Bienvenido')}
+        onPress={() => navigation.navigate('Bienvenido', {userId: userId})}
         style={{  width: 75, height: 75,}}
         contentFit= "contain"
         source={require("../assets/icon2.png")}
@@ -101,7 +102,7 @@ const MiRecetario = ( { navigation }) => {
  
       {/* icono home */}
       <TouchableOpacity style={[styles.icon2, styles.icon2Layout]}
-                          onPress={() => navigation.navigate('Inicio')}>
+                          onPress={() => navigation.navigate('Inicio', {userId: userId})}>
         <Image
           style={{  width: 67, height: 67, top: -3}}
           contentFit= "contain"

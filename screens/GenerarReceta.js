@@ -21,10 +21,11 @@ import Icon from 'react-native-vector-icons/Feather';
 
 const GenerarReceta = ( { navigation, route }) => {
   const userId = route.params?.userId || 0;
-
   const [myIngredients, setMyIngredients]= useState("")
   const [myIngredientsArray, setMyIngredientsArray]= useState([])
+  const API_KEY = "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";
 
+  const [allMessages, setAllMessages] = useState([])
 
   useEffect(() => {
     var xhttp = new XMLHttpRequest();
@@ -40,6 +41,38 @@ const GenerarReceta = ( { navigation, route }) => {
     xhttp.open("GET", "https://metameals.000webhostapp.com/GetIngredients.php?userId=" + userId, true);
     xhttp.send();
   },[]);
+
+  async function getCompletion() {
+
+    const ingredientes = myIngredientsArray.map(objeto => objeto.title);
+
+    let messagesToSend = [
+      ...allMessages,
+      {
+          role: 'user',
+          content: "Dame una receta saludable que contenga unicamente y exclusivamente:"+ ingredientes +"Devueleve un json con nombre, ingredientes, preparacion, informacion nutrimental"
+      }
+  ]
+    const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: messagesToSend,
+        max_tokens: 1000,
+        temperature: 5
+      }),
+    });
+  
+    const data = await response.json();
+    const json = data.choices[0].message.content;
+    const obj = JSON.parse(json);
+    navigation.navigate('VerReceta', {receta: obj});
+    return data;
+  }
 
 
   const onSubmitAddToList = () =>{
@@ -154,14 +187,15 @@ const GenerarReceta = ( { navigation, route }) => {
             contentContainerStyle={styles.listaContainer}
         />
     
-        <TouchableOpacity style={styles.buttonprimary}>
-          <Text style={[styles.orderNow, styles.orderNowFlexBox]}>
+        <TouchableOpacity onPress={getCompletion} style={styles.buttonprimary}>
+          <Text style={[styles.orderNow, styles.orderNowFlexBox]}
+                onPress={getCompletion}>
             Generar Receta
           </Text>
         </TouchableOpacity>
         
         {/* recetario imagen */}
-        <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario')}>
+        <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario', {userId: userId})}>
         <Image
           style={{  width: 57, height: 57,}}
           source={require("../assets/image-1.png")}

@@ -13,7 +13,7 @@ import { FontSize, FontFamily, Color, Border } from "../GlobalStyles";
 import SelectBox from 'react-native-multi-selectbox';
 import DropDownPicker from "react-native-dropdown-picker";
 import { xorBy } from 'lodash';
-import { color } from "react-native-reanimated";
+import { color, log } from "react-native-reanimated";
 import { useNavigation } from '@react-navigation/native';
 
 const K_OPTIONS_ALERGIAS = [

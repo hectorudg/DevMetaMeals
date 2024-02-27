@@ -4,7 +4,14 @@ import { StyleSheet, Text, View, Pressable, TextInput, TouchableOpacity,ImageBac
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
 import { useNavigation } from '@react-navigation/native';
 
-const VerReceta = ( { navigation }) => {
+const VerReceta = ( { navigation, route }) => {
+  const receta = route.params?.receta || 0;
+  const userId = route.params?.userId || 0; 
+  
+  const objectToString = Object.entries(receta.informacion_nutrimental)
+    .map(([key, value]) => `${key}: ${value}`)
+    .join(' \n');
+
   const [rectangleTextInput, setRectangleTextInput] = useState("ingredientes");
   const [rectangleTextInput1, setRectangleTextInput1] = useState("macros ");
   const [rectangleTextInput2, setRectangleTextInput2] =
@@ -15,20 +22,20 @@ return (
         <View style={styles.splashScreen}>
           
           {/* recetario imagen */}
-          <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario')}>
+          <TouchableOpacity style={[styles.image1Icon, styles.image1IconLayout]} onPress={() => navigation.navigate('MiRecetario', {userId: userId})}>
           <Image
             style={{  width: 57, height: 57,}}
             source={require("../assets/image-1.png")}
           />
           </TouchableOpacity>
           <Text style={[styles.holaHector, styles.title1Clr]}>
-             {"{NOMBRE.RECETA}"}
+             {receta.nombre}
           </Text>
         {/* Icono central IA */}
         <TouchableOpacity style={[styles.icon1, styles.icon1Position]} 
-                          onPress={() => navigation.navigate('GenerarReceta')}>
+                          onPress={() => navigation.navigate('GenerarReceta', {userId: userId})}>
         <Image
-          onPress={() => navigation.navigate('Bienvenido')}
+          onPress={() => navigation.navigate('Bienvenido', {userId: userId})}
           style={{  width: 75, height: 75,}}
           contentFit= "contain"
           source={require("../assets/icon2.png")}
@@ -37,7 +44,7 @@ return (
    
         {/* icono home */}
         <TouchableOpacity style={[styles.icon2, styles.icon2Layout]}
-                          onPress={() => navigation.navigate('Inicio')}>
+                          onPress={() => navigation.navigate('Inicio', {userId: userId})}>
         <Image
           style={{  width: 67, height: 67, top: -3}}
           contentFit= "contain"
@@ -45,8 +52,7 @@ return (
         />
         </TouchableOpacity>
 
-        
-   
+  
         <View style={styles.bienvenido}>
         <View style={[styles.splashScreen, styles.framePosition4]}>
         <Image
@@ -61,7 +67,6 @@ return (
     <Text style={[styles.intrucciones, styles.macrosTypo]}>Instrucciones</Text>
     <Text style={[styles.macros, styles.macrosTypo]}>Macros</Text>
 
-    
     <View style={styles.contenedor}>
       {/* ingredientes */}
     <TextInput
@@ -69,7 +74,7 @@ return (
         multiline={true}
         numberOfLines={5} // Puedes ajustar el número de líneas visibles
         textAlignVertical="top" // Ajusta la alineación vertical del texto
-        value={"En este ejemplo, multiline={true}El Metro de Palma es el sistema de ferrocarril metropolitano de la ciudad de Palma de Mallorca, en España, que se inauguró el 25 de abril de 2007. Cuenta con dos líneas operativas, que componen una red en forma de Y con una longitud total de 15,55 kilómetros. La línea M1 consta de nueve estaciones y una longitud total de 7,2 km, realiza el trayecto entre la Estación Intermodal de Plaza de España y la Universidad de las Islas Baleares, mientras que la M2 también tiene nueve estaciones —tres compartidas con la M1 y todas ellas con las líneas de tren de Servicios Ferroviarios de Mallorca (SFM)— y una longitud total de 8,5 km, realiza el trayecto entre la Plaza de España y Marrachí. permite que el cuadro de texto tenga varias líneas, y numberOfLines define cuántas líneas son visibles de manera predeterminada. Puedes ajustar numberOfLines según tus necesidades. La propiedad textAlignVertical se utiliza para ajustar la alineación vertical del texto en el cuadro de texto. En este caso, se ha establecido en para alinear el texto en la parte superior del cuadro de texto."}
+        value={receta.ingredientes.join(', ')}
       />
       {/* instrucciones */}
 
@@ -78,7 +83,7 @@ return (
         multiline={true}
         numberOfLines={5} // Puedes ajustar el número de líneas visibles
         textAlignVertical="top" // Ajusta la alineación vertical del texto
-        value={"En este ejemplo, multiline={true}El Metro de Palma es el sistema de ferrocarril metropolitano de la ciudad de Palma de Mallorca, en España, que se inauguró el 25 de abril de 2007. Cuenta con dos líneas operativas, que componen una red en forma de Y con una longitud total de 15,55 kilómetros. La línea M1 consta de nueve estaciones y una longitud total de 7,2 km, realiza el trayecto entre la Estación Intermodal de Plaza de España y la Universidad de las Islas Baleares, mientras que la M2 también tiene nueve estaciones —tres compartidas con la M1 y todas ellas con las líneas de tren de Servicios Ferroviarios de Mallorca (SFM)— y una longitud total de 8,5 km, realiza el trayecto entre la Plaza de España y Marrachí. permite que el cuadro de texto tenga varias líneas, y numberOfLines define cuántas líneas son visibles de manera predeterminada. Puedes ajustar numberOfLines según tus necesidades. La propiedad textAlignVertical se utiliza para ajustar la alineación vertical del texto en el cuadro de texto. En este caso, se ha establecido en para alinear el texto en la parte superior del cuadro de texto."}
+        value={receta.preparacion}
       />
 
       {/* macros */}
@@ -87,7 +92,7 @@ return (
         multiline={true}
         numberOfLines={5} // Puedes ajustar el número de líneas visibles
         textAlignVertical="top" // Ajusta la alineación vertical del texto
-        value={"En este ejemplo, multiline={true}El Metro de Palma es el sistema de ferrocarril metropolitano de la ciudad de Palma de Mallorca, en España, que se inauguró el 25 de abril de 2007. Cuenta con dos líneas operativas, que componen una red en forma de Y con una longitud total de 15,55 kilómetros. La línea M1 consta de nueve estaciones y una longitud total de 7,2 km, realiza el trayecto entre la Estación Intermodal de Plaza de España y la Universidad de las Islas Baleares, mientras que la M2 también tiene nueve estaciones —tres compartidas con la M1 y todas ellas con las líneas de tren de Servicios Ferroviarios de Mallorca (SFM)— y una longitud total de 8,5 km, realiza el trayecto entre la Plaza de España y Marrachí. permite que el cuadro de texto tenga varias líneas, y numberOfLines define cuántas líneas son visibles de manera predeterminada. Puedes ajustar numberOfLines según tus necesidades. La propiedad textAlignVertical se utiliza para ajustar la alineación vertical del texto en el cuadro de texto. En este caso, se ha establecido en para alinear el texto en la parte superior del cuadro de texto."}
+        value={objectToString}
       />
 
         <Pressable style={styles.buttonprimary}>
