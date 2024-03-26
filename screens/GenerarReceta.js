@@ -23,9 +23,10 @@ const GenerarReceta = ( { navigation, route }) => {
   const userId = route.params?.userId || 0;
   const [myIngredients, setMyIngredients]= useState("")
   const [myIngredientsArray, setMyIngredientsArray]= useState([])
-  const API_KEY = "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";
+  
 
   const [allMessages, setAllMessages] = useState([])
+  
 
   useEffect(() => {
     var xhttp = new XMLHttpRequest();
@@ -45,12 +46,13 @@ const GenerarReceta = ( { navigation, route }) => {
   async function getCompletion() {
 
     const ingredientes = myIngredientsArray.map(objeto => objeto.title);
+    console.log(ingredientes);
 
     let messagesToSend = [
       ...allMessages,
       {
           role: 'user',
-          content: "Dame una receta saludable que contenga unicamente y exclusivamente:"+ ingredientes +"Devueleve un json con nombre, ingredientes, preparacion, informacion nutrimental"
+          content: "Dame una receta saludable que no sea ensalada, contenga unicamente y exclusivamente:"+ ingredientes +"Devuelve un json con nombre, ingredientes, preparacion, informacion nutrimental"
       }
   ]
     const response = await fetch(`https://api.openai.com/v1/chat/completions`, {
@@ -63,14 +65,20 @@ const GenerarReceta = ( { navigation, route }) => {
         model: "gpt-3.5-turbo",
         messages: messagesToSend,
         max_tokens: 1000,
-        temperature: 5
+        temperature: 0.2
       }),
     });
   
     const data = await response.json();
     const json = data.choices[0].message.content;
-    const obj = JSON.parse(json);
-    navigation.navigate('VerReceta', {receta: obj});
+    console.log("json -> ",json);
+
+    const obj =  await JSON.parse(json);
+    setTimeout(() => {
+      console.log("obj -> ",obj);
+      navigation.navigate('VerReceta', {receta: obj, userId: userId});
+  }, 8000);
+  
     return data;
   }
 

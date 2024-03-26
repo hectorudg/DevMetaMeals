@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import { StyleSheet, Text, View, Pressable, TextInput, TouchableOpacity,ImageBackground, } from "react-native";
 import { FontFamily, FontSize, Color, Border } from "../GlobalStyles";
@@ -7,15 +7,20 @@ import { useNavigation } from '@react-navigation/native';
 const VerReceta = ( { navigation, route }) => {
   const receta = route.params?.receta || 0;
   const userId = route.params?.userId || 0; 
-  
-  const objectToString = Object.entries(receta.informacion_nutrimental)
-    .map(([key, value]) => `${key}: ${value}`)
-    .join(' \n');
 
   const [rectangleTextInput, setRectangleTextInput] = useState("ingredientes");
   const [rectangleTextInput1, setRectangleTextInput1] = useState("macros ");
-  const [rectangleTextInput2, setRectangleTextInput2] =
-    useState("instrucciones");
+  const [rectangleTextInput2, setRectangleTextInput2] = useState("instrucciones");
+
+
+  console.log("ver receta -> ",receta);
+  console.log("ver receta -> ",receta.ingredientes);
+
+  objectToString = Object.entries(receta.informacion_nutrimental)
+  .map(([key, value]) => `${key}: ${value}`)
+  .join(' \n');
+
+  console.log("ver receta -> ",receta.objectToString);
 
 return (
   <View style={styles.inicio}>
@@ -96,8 +101,8 @@ return (
       />
 
         <Pressable style={styles.buttonprimary}>
-            <Text style={styles.orderNow}>AGregar Al recetario</Text>
-          </Pressable>
+            <Text style={styles.orderNow}>Agregar Al recetario</Text>
+        </Pressable>
     </View>
 
 
