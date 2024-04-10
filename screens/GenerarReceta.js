@@ -24,7 +24,6 @@ const GenerarReceta = ( { navigation, route }) => {
   const [myIngredients, setMyIngredients]= useState("")
   const [myIngredientsArray, setMyIngredientsArray]= useState([])
   
-  
   const [allMessages, setAllMessages] = useState([])
   
 
